@@ -8,6 +8,11 @@ body {
   overflow: hidden;
 }
 
+@media print {
+  .no-print {
+    visibility: hidden;
+  }
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

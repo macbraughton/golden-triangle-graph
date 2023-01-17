@@ -20,7 +20,7 @@ const controlPanelStyle = {
 function App() {
   return (
     <div style={{ position: "relative", overflow: "hidden" }}>
-      <div style={controlPanelStyle}>
+      <div class={"no-print"} style={controlPanelStyle}>
         <input value={width()} onChange={(e) => setWidth(e.target.value)} type="number" ref={input} />
         <input value={n()} onChange={(e) => setN(e.target.value)} type="number" ref={input} />
       </div>
