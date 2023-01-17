@@ -6,7 +6,7 @@ import { createEffect, createSignal, For } from 'solid-js';
 let widthInput;
 let nodeInput;
 let colorInput;
-const defaultColor = "#999999"
+const defaultColor = "#BEBEBE"
 const defaultWidth = 40
 const h = 200
 const w = c(h)
@@ -24,37 +24,44 @@ const [color, setColor] = createSignal(defaultColor)
 
 function App() {
   return (
-    <div style={{ position: "relative", overflow: "hidden" }}>
-      <div class={"no-print"} style={controlPanelStyle}>
-        <div>Controls</div>
-        <div style={controlStyle}>
-          <label for="width">width (px)</label>
-          <input style={inputStyle} id="width" value={width()} onChange={(e) => setWidth(e.target.value)} type="number" ref={widthInput} />
-        </div>
-        <div style={controlStyle}>
-          <label for="color">color</label>
-          <input style={inputStyle} id="color" value={color()} onChange={(e) => setColor(e.target.value)} type="text" ref={colorInput} />
-        </div>
-        <div style={controlStyle}>
-          <label for="nodes">nodes</label>
-          <input style={inputStyle} id="nodes" value={n()} onChange={(e) => setN(e.target.value)} type="number" ref={nodeInput} />
+    <>
+      <svg style={{ display: "none" }} version="1.1" xmlns="http://www.w3.org/2000/svg"  >
+        <symbol id="cell" viewBox={viewBox}>
+          <g stroke={color()}  fill="none" stroke-width={strokeWidth} shape-rendering="geometricPrecision">
+            <path d={`M ${C(h)} L ${B(h)} L ${C(-h)} L ${B(-h)} z M ${E(h)} L ${E(-h)} M ${A(-h)} L ${B(-h)} M ${A(-h)} L ${C(-h)} M ${A(h)} L ${C(h)} M ${A(h)} L ${B(h)} M ${A(h)} L ${A(-h)} M ${D(h)} L ${F(h)} M ${G(h)} L ${I(h)}`} />
+          </g>
+        </symbol>
+      </svg>
+      <section style={{ position: "relative", overflow: "hidden" }}>
+        <div class={"no-print"} style={controlPanelStyle}>
+          <div>Controls</div>
+          <div style={controlStyle}>
+            <label for="width">width (px)</label>
+            <input style={inputStyle} id="width" value={width()} onChange={(e) => setWidth(e.target.value)} type="number" ref={widthInput} />
+          </div>
+          <div style={controlStyle}>
+            <label for="color">color</label>
+            <input style={inputStyle} id="color" value={color()} onChange={(e) => setColor(e.target.value)} type="text" ref={colorInput} />
+          </div>
+          <div style={controlStyle}>
+            <label for="nodes">nodes</label>
+            <input style={inputStyle} id="nodes" value={n()} onChange={(e) => setN(e.target.value)} type="number" ref={nodeInput} />
+          </div>
+          <div>
+            <button onClick={() => { setWidth(defaultWidth); setN(nodesPerWindow()); setColor(defaultColor) }}>reset</button>
+          </div>
         </div>
         <div>
-          <button onClick={() => { setWidth(defaultWidth); setN(nodesPerWindow()); setColor(defaultColor) }}>reset</button>
+          <div style={nodeStyle}>
+            <For each={nodes()}>{() =>
+              <svg style={{ float: "left" }} width={width()} height={height()}>
+                <use xlink:href="#cell" />
+              </svg>}
+            </For>
+          </div>
         </div>
-      </div>
-      <div>
-        <div style={nodeStyle}>
-          <For each={nodes()}>{() =>
-            <svg style={{ float: "left" }} version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox={viewBox} width={width()}>
-              <g stroke={color()} fill="none" stroke-width={strokeWidth} shape-rendering="geometricPrecision">
-                <path d={`M ${C(h)} L ${B(h)} L ${C(-h)} L ${B(-h)} z M ${E(h)} L ${E(-h)} M ${A(-h)} L ${B(-h)} M ${A(-h)} L ${C(-h)} M ${A(h)} L ${C(h)} M ${A(h)} L ${B(h)} M ${A(h)} L ${A(-h)} M ${D(h)} L ${F(h)} M ${G(h)} L ${I(h)}`} />
-              </g>
-            </svg>}
-          </For>
-        </div>
-      </div>
-    </div>
+      </section>
+    </>
   );
 }
 
