@@ -1,7 +1,7 @@
 {
-  "name": "vite-template-solid",
-  "version": "0.0.0",
-  "description": "",
+  "name": "golden-triangle-graph",
+  "version": "0.0.1",
+  "description": "Generate golden triangle graph",
   "scripts": {
     "start": "vite",
     "dev": "vite",
@@ -11,6 +11,7 @@
   "license": "MIT",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.48.2",
+    "@typescript-eslint/parser": ">=5.0.0 <6.0.0",
     "eslint": "^8.32.0",
     "eslint-config-standard-with-typescript": "^30.0.0",
     "eslint-plugin-import": "^2.27.5",
