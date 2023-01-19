@@ -36,6 +36,10 @@ code {
     "f g h"
 }
 
+.no-fill {
+  opacity: .1;
+}
+
 .a {
   grid-area: a;
 }
