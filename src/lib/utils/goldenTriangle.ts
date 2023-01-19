@@ -6,9 +6,9 @@ export const delta = unit(18, 'deg')
 export const gamma = Math.sqrt(phi ** 2 - 1 / 4)
 export const a = (b: number): number => b * phi;
 export const b = (a: number): number => a / phi;
-export const c = (h: number): number => h / gamma;
+export const h2w = (h: number): number => h / gamma;
 export const d = (h: number): number => 2 * h / tan(alpha)
-export const e = (w: number): number => w * gamma;
+export const w2h = (w: number): number => w * gamma;
 export const generic = (h: number, t: (h: number, x: number, y: number) => number[], x = 0, y = 0): number[] => {
   return t(h, x, y)
 }
