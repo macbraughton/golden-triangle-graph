@@ -1,7 +1,9 @@
 /* @refresh reload */
 import { render } from 'solid-js/web';
-
+import { ViewportProvider } from './lib/stores/viewport';
 import './index.css';
+import vb from './lib/utils/vb';
 import App from './App';
+const vbi = vb(innerWidth, innerHeight)
 
-render(() => <App />, document.getElementById('root'));
+render(() => <ViewportProvider viewBox={vbi}><App /></ViewportProvider>, document.getElementById('root'));
