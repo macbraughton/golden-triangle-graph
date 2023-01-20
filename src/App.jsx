@@ -2,6 +2,7 @@
 // import { A, B, C, D, E, F, G, I, c, e } from './lib/utils/goldenTriangle'
 // import { range, ceil } from 'mathjs';
 import Cell from './lib/components/Cell'
+import CellGroup from './lib/components/CellGroup'
 // import { controlPanelStyle, controlStyle, inputStyle, nodeStyle } from './styles'
 // import { createEffect, createSignal, For } from 'solid-js';
 // let widthInput;
@@ -25,25 +26,34 @@ import Cell from './lib/components/Cell'
 
 function App() {
   return (
-    <div class="celltableWrapper">
-      <div class="celltable">
-        <div class="a">0</div>
-        <div class="b">1</div>
-        <div class="c">0</div>
-        <div class="f">1</div>
-        <div class="d">
-          <Cell p="00"/>
-        </div>
-        <div class="e">
-          <Cell p="01"/>
-        </div>
-        <div class="g">
-          <Cell p="10"/>
-        </div>
-        <div class="h">
-          <Cell p="11"/>
+    <div>
+      <div class="celltableWrapper">
+        <div class="celltable">
+          <div class="a">0</div>
+          <div class="b">1</div>
+          <div class="c">0</div>
+          <div class="f">1</div>
+          <div class="d">
+            <Cell p="00" />
+          </div>
+          <div class="e">
+            <Cell p="01" />
+          </div>
+          <div class="g">
+            <Cell p="10" />
+          </div>
+          <div class="h">
+            <Cell p="11" />
+          </div>
         </div>
       </div>
+      <div>
+        <Cell p="00" />
+        <Cell p="01" />
+        <Cell p="10" />
+        <Cell p="11" />
+      </div>
+      <CellGroup />
     </div>
   );
 }
