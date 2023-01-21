@@ -1,6 +1,6 @@
 import { createSignal, createEffect } from 'solid-js'
 import { controlPanelStyle, controlStyle, inputStyle } from '../../styles'
-import { w2h } from './lib/utils/goldenTriangle';
+import { w2h } from './lib/utils';
 import { range, ceil } from 'mathjs';
 
 // Set up signals for each control

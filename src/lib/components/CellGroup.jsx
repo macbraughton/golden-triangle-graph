@@ -1,6 +1,6 @@
 import { mergeProps } from 'solid-js'
 import Cell from './Cell'
-import { h2w, w2h } from '../utils/goldenTriangle'
+import { h2w, w2h } from '../utils'
 const width = 100
 const height = w2h(width) * 2
 const vbh = 100

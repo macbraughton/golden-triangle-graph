@@ -1,6 +1,6 @@
 import { mergeProps } from 'solid-js'
 import { Switch, Match } from 'solid-js'
-import { h2w, w2h } from '../utils/goldenTriangle'
+import { h2w, w2h } from '../utils'
 const stroke = "#BEBEBE"
 const strokeWidth = 1
 const fill = "#5A5A5A"

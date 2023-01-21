@@ -3,13 +3,21 @@ import vb from "../utils/vb";
 
 const ViewportContext = createContext();
 
+const config = (width:number, height:number) => {
+  return {
+    width,
+    height,
+    "min-x": `-${innerWidth / 2}`,
+    "min-y": `-${innerHeight / 2}`
+  }
+}
 
 export const ViewportProvider = props => {
   // we are never setting this signal outside of the event handler, so we don't need export the setter
-  const [viewBox, setViewBox] = createSignal(vb(window.innerWidth, window.innerHeight)), vbx = [viewBox, {}]
+  const [viewPort, setViewPort] = createSignal(config(innerWidth, innerHeight)), vbx = [viewPort]
 
   const handler = (event: Event) => {
-    setViewBox(vb(window.innerWidth, window.innerHeight))
+    setViewPort(config(innerWidth, innerHeight))
   }
 
   onMount(() => {
@@ -27,4 +35,4 @@ export const ViewportProvider = props => {
   )
 }
 
-export function useViewport() { return useContext(ViewportContext)}
+export function useViewport() { return useContext(ViewportContext) }
