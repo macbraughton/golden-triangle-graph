@@ -1,6 +1,6 @@
 import { mergeProps } from "solid-js";
 
-import vb from "../utils/vb";
+import { vb } from "../utils";
 const viewBox = vb(120, 120)
 
 const SVGViewport = props => {

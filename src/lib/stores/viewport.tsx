@@ -1,5 +1,4 @@
 import { createSignal, createContext, useContext, onCleanup, onMount } from "solid-js";
-import vb from "../utils/vb";
 
 const ViewportContext = createContext();
 
