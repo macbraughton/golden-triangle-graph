@@ -8,7 +8,8 @@ const config = (width:number, height:number) => {
     width,
     height,
     "min-x": `-${innerWidth / 2}`,
-    "min-y": `-${innerHeight / 2}`
+    "min-y": `-${innerHeight / 2}`,
+    area: width * height
   }
 }
 
