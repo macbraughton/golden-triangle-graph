@@ -1,12 +1,9 @@
 import { useViewport } from './lib/stores/viewport'
 import Svg from './lib/components/Svg'
 import { h2w } from './lib/utils';
-import { createSignal, For } from 'solid-js';
+import { createSignal, onMount, onCleanup, For } from 'solid-js';
 import { cellgen } from './lib/utils'
-
-const onClick = (e) => {
-  e.target.classList.toggle('no-fill')
-}
+import { sign } from 'mathjs'
 
 function App() {
   const [viewPort] = useViewport()
@@ -23,12 +20,48 @@ function App() {
     return cellgen(w(), h(), viewPort())
   }
 
+  const mouseWheel = (event) => {
+    if (sign(event.deltaY) > 0) {
+      setH(n => n + 1)
+    } else setH(n => n - 1)
+  }
+
+  const mouseDown = (event) => {
+    let currentElement = event.target;
+    currentElement.classList.add('no-fill');
+
+    const mouseMoveHandler = (moveEvent) => {
+      let newElement = document.elementsFromPoint(moveEvent.clientX, moveEvent.clientY).find(element => element.classList);
+      if (newElement !== currentElement) {
+        currentElement = newElement;
+        currentElement.classList.add('no-fill');
+      }
+    };
+
+    window.addEventListener('mousemove', mouseMoveHandler);
+
+    window.addEventListener('mouseup', () => {
+      window.removeEventListener('mousemove', mouseMoveHandler);
+    });
+  };
+
+
+  onMount(() => {
+    window.addEventListener('mousewheel', mouseWheel)
+    window.addEventListener('mousedown', mouseDown)
+  })
+
+  onCleanup(() => {
+    window.removeEventListener('mousewheel', mouseWheel)
+    window.removeEventListener('mousedown', mouseDown)
+  })
+
   return (
     <div style={{ position: "relative", overflow: "hidden" }}>
       <Svg viewBox={viewBox()}>
         <g shape-rendering="geometricPrecision">
           <For each={initialCells()}>{d =>
-            <path class="no-fill" d={d} fill="#BEBEBE" stroke="darkgray" onClick={onClick} />
+            <path d={d} fill="#999999" stroke="black" />
           }
           </For>
         </g>
