@@ -31,13 +31,13 @@ function App() {
 
   const mouseDown = (event) => {
     let currentElement = event.target;
-    currentElement.classList.add('no-fill');
+    if (currentElement.classList.contains('cell')) { currentElement.classList.add('no-fill'); }
 
     const mouseMoveHandler = (moveEvent) => {
       let newElement = document.elementsFromPoint(moveEvent.clientX, moveEvent.clientY).find(element => element.classList);
       if (newElement !== currentElement) {
         currentElement = newElement;
-        currentElement.classList.add('no-fill');
+        if (currentElement.classList.contains('cell')) { currentElement.classList.add('no-fill'); }
       }
     };
 
@@ -65,7 +65,7 @@ function App() {
       <Svg viewBox={viewBox()}>
         <g shape-rendering="geometricPrecision">
           <For each={initialCells()}>{d =>
-            <path d={d} fill={controls.fill} stroke={controls.stroke} stroke-width={controls["stroke-width"]} />
+            <path class="cell" d={d} fill={controls.fill} stroke={controls.stroke} stroke-width={controls["stroke-width"]} />
           }
           </For>
         </g>
