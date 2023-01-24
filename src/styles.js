@@ -1,7 +1,7 @@
 export const controlPanelStyle = {
   position: "fixed",
   height: "150px",
-  width: "170px",
+  width: "200px",
   left: "10px",
   top: "10px",
   display: "flex",
@@ -11,10 +11,11 @@ export const controlPanelStyle = {
   background: "white",
   border: "1px solid black",
   padding: "5px",
+  opacity: "1 !important"
 }
 
 export const controlStyle = {
-  width: "100%",
+  width: "100%",  
   display: "flex",
   "flex-direction": "row",
   "flex-wrap": "no-wrap",

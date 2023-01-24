@@ -1,45 +1,31 @@
-import { createSignal, createEffect } from 'solid-js'
+
 import { controlPanelStyle, controlStyle, inputStyle } from '../../styles'
-import { w2h } from './lib/utils';
-import { range, ceil } from 'mathjs';
+import { useControlPanel } from '../stores/controls';
 
-// Set up signals for each control
-const defaultWidth = 40
-const [width, setWidth] = createSignal(defaultWidth)
-let widthInput;
 
-const height = () => w2h(width())
+let fillInput
+let strokeInput
+let strokeWidthInput
 
-const defaultColor = "#999999"
-const [color, setColor] = createSignal(defaultColor)
-let colorInput;
-
-const nodesPerWindow = () => ceil((innerHeight * innerWidth) / (height() * width()))
-
-let nodeInput;
-const [n, setN] = createSignal(nodesPerWindow())
-const nodes = () => range(0, n())._data
-createEffect(() => {
-  setN(nodesPerWindow())
-})
-
-const ControlPanel = props => <div class={"no-print"} style={controlPanelStyle}>
-  <div>Controls</div>
-  <div style={controlStyle}>
-    <label for="width">width (px)</label>
-    <input style={inputStyle} id="width" value={width()} onChange={(e) => setWidth(e.target.value)} type="number" ref={widthInput} />
-  </div>
-  <div style={controlStyle}>
-    <label for="color">color</label>
-    <input style={inputStyle} id="color" value={color()} onChange={(e) => setColor(e.target.value)} type="text" ref={colorInput} />
-  </div>
-  <div style={controlStyle}>
-    <label for="nodes">nodes</label>
-    <input style={inputStyle} id="nodes" value={n()} onChange={(e) => setN(e.target.value)} type="number" ref={nodeInput} />
-  </div>
-  <div>
-    <button onClick={() => { setWidth(defaultWidth); setN(nodesPerWindow()); setColor(defaultColor) }}>reset</button>
-  </div>
-</div>
-
+const ControlPanel = props => {
+  const [controls , { setFill, setStroke, setStrokeWidth, reset }] = useControlPanel()
+  return (<div class={"no-print"} style={controlPanelStyle}>
+    <div>Controls</div>
+    <div style={controlStyle}>
+      <label for="fill">fill</label>
+      <input style={inputStyle} id="fill" value={controls.fill} onChange={(e) => setFill(e.target.value)} type="text" ref={fillInput} />
+    </div>
+    <div style={controlStyle}>
+      <label for="stroke">stroke</label>
+      <input style={inputStyle} id="stroke" value={controls.stroke} onChange={(e) => setStroke(e.target.value)} type="text" ref={strokeInput} />
+    </div>
+    <div style={controlStyle}>
+      <label for="stroke-width">stroke-width</label>
+      <input style={inputStyle} id="stroke-width" value={controls["stroke-width"]} onChange={(e) => setStrokeWidth(e.target.value)} type="number" ref={strokeWidthInput} />
+    </div>
+    <div>
+      <button onClick={() => reset()}>reset</button>
+    </div>
+  </div>)
+}
 export default ControlPanel

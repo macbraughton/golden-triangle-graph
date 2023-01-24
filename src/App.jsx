@@ -4,9 +4,12 @@ import { h2w } from './lib/utils';
 import { createSignal, onMount, onCleanup, For } from 'solid-js';
 import { cellgen } from './lib/utils'
 import { sign } from 'mathjs'
+import { useControlPanel } from './lib/stores/controls';
+import ControlPanel from './lib/components/ControlPanel';
 
 function App() {
   const [viewPort] = useViewport()
+  const [controls] = useControlPanel()
   const minX = () => viewPort()["min-x"]
   const minY = () => viewPort()["min-y"]
   const width = () => viewPort().width
@@ -58,10 +61,11 @@ function App() {
 
   return (
     <div style={{ position: "relative", overflow: "hidden" }}>
+      <ControlPanel />
       <Svg viewBox={viewBox()}>
         <g shape-rendering="geometricPrecision">
           <For each={initialCells()}>{d =>
-            <path d={d} fill="#999999" stroke="black" />
+            <path d={d} fill={controls.fill} stroke={controls.stroke} stroke-width={controls["stroke-width"]} />
           }
           </For>
         </g>
