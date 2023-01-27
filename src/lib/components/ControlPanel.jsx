@@ -2,14 +2,19 @@
 import { controlPanelStyle, controlStyle, inputStyle } from '../../styles'
 import { useControlPanel } from '../stores/controls';
 
+let cellWidthInput
 let fillInput
 let strokeInput
 let strokeWidthInput
 
 const ControlPanel = props => {
-  const [controls , { setFill, setStroke, setStrokeWidth, reset }] = useControlPanel()
+  const [controls , { setCellWidth, setFill, setStroke, setStrokeWidth, reset }] = useControlPanel()
   return (<div class={"no-print"} style={controlPanelStyle}>
     <div>Controls</div>
+    <div style={controlStyle}>
+      <label for="cell-width">cell-width</label>
+      <input style={inputStyle} id="cell-width" value={controls["cell-width"]} onChange={(e) => setCellWidth(e.target.value)} type="number" ref={cellWidthInput} />
+    </div>
     <div style={controlStyle}>
       <label for="fill">fill</label>
       <input style={inputStyle} id="fill" value={controls.fill} onChange={(e) => setFill(e.target.value)} type="text" ref={fillInput} />

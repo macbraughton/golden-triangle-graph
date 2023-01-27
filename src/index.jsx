@@ -6,11 +6,7 @@ import './index.css';
 import { vb } from './lib/utils';
 import App from './App';
 const vbi = vb(innerWidth, innerHeight)
-const config = {
-  stroke: "black",
-  fill: "gray",
-  "stroke-width": 1,
-}
+import config from './lib/config'
 
 render(() => <ViewportProvider viewBox={vbi}>
   <ControlPanelProvider config={config} >

@@ -3,9 +3,10 @@ import { createStore } from "solid-js/store";
 
 const ControlPanelContext = createContext();
 
-const config = {
-  stroke: "black",
+export const config = {
+  "cell-width": 30,
   fill: "gray",
+  stroke: "black",
   "stroke-width": 1,
 }
 
@@ -14,6 +15,9 @@ export const ControlPanelProvider = props => {
   const [controls, setControls] = createStore(props.config || config), controlPanel = [
     controls,
     {
+      setCellWidth(number: number) {
+        setControls(settings => { return { ...settings, "cell-width": number } })
+      },
       setFill(string: string) {
         setControls(settings => { return { ...settings, fill: string } })
       },
