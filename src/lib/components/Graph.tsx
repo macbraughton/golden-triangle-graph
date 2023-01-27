@@ -26,7 +26,9 @@ const Graph = props => {
   const mouseWheel = (event) => {
     if (sign(event.deltaY) > 0) {
       setCellWidth(+w() + 1)
-    } else setCellWidth(+w() - 1)
+    } else if (+w() > 5) {
+      setCellWidth(+w() - 1)
+    }
   }
 
   const mouseDown = (event) => {
