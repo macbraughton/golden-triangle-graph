@@ -26,7 +26,7 @@ const genCellAxes = (xRange, yRange) => {
   } else return yRange.map(x => xRange.map(y => [x, y]))
 }
 
-const gridDimensions = (w, h, viewPort) => {
+export const gridDimensions = (w, h, viewPort) => {
   const dimensions = cellGroupDimensions(w, h)
   const cols = roundUpToOdd(viewPort.width / dimensions.width)
   const rows = roundUpToOdd(viewPort.height / dimensions.height)

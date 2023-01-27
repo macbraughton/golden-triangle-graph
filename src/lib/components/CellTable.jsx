@@ -1,6 +1,6 @@
 import Cell from './Cell'
-
-const CellTable = () => <div class="celltableWrapper">
+import { cellTableStyle } from '../../styles'
+  const CellTable = () => <div style={cellTableStyle}>
   <div class="celltable">
     <div class="a">0</div>
     <div class="b">1</div>

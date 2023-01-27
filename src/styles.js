@@ -14,6 +14,22 @@ export const controlPanelStyle = {
   opacity: "1 !important"
 }
 
+export const cellTableStyle = {
+  position: "fixed",
+  height: "200px",
+  width: "200px",
+  left: "10px",
+  top: "170px",
+  display: "flex",
+  "flex-direction": "column",
+  "justify-content": "space-between",
+  "align-items": "center",
+  background: "white",
+  border: "1px solid black",
+  padding: "5px",
+  opacity: "1 !important"
+}
+
 export const controlStyle = {
   width: "100%",  
   display: "flex",

@@ -1,7 +1,7 @@
 import { useViewport } from '../stores/viewport'
 import Svg from '../components/Svg'
-import { h2w, w2h } from '../utils';
-import { createSignal, onMount, onCleanup, For } from 'solid-js';
+import { w2h } from '../utils';
+import { onMount, onCleanup, For } from 'solid-js';
 import { cellgen } from '../utils'
 import { sign } from 'mathjs'
 import { useControlPanel } from '../stores/controls';
@@ -16,13 +16,10 @@ const Graph = props => {
   const viewBox = () => `${minX()} ${minY()} ${width()} ${height()}`
 
   const w = () => controls["cell-width"]
-  console.log(controls)
-
-  const h = () => w2h(w() * 2)
+  const h = () => controls["cell-height"]
 
   const initialCells = () => {
     const output = cellgen(w(), h(), viewPort())
-    console.log(output)
     return output
   }
 

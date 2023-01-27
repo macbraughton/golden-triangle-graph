@@ -1,14 +1,17 @@
 import { createContext, useContext } from "solid-js";
 import { createStore } from "solid-js/store";
-
+import { w2h } from "../utils";
 const ControlPanelContext = createContext();
 
-export const config = {
+const initialConfig = {
   "cell-width": 30,
+  "cell-height": w2h(30 * 2),
   fill: "gray",
   stroke: "black",
   "stroke-width": 1,
 }
+
+export const config = { ...initialConfig }
 
 export const ControlPanelProvider = props => {
   // we are never setting this signal outside of the event handler, so we don't need export the setter
@@ -16,7 +19,7 @@ export const ControlPanelProvider = props => {
     controls,
     {
       setCellWidth(number: number) {
-        setControls(settings => { return { ...settings, "cell-width": number } })
+        setControls(settings => { return { ...settings, "cell-width": number, "cell-height": w2h(number * 2) } })
       },
       setFill(string: string) {
         setControls(settings => { return { ...settings, fill: string } })
@@ -28,7 +31,9 @@ export const ControlPanelProvider = props => {
         setControls(settings => { return { ...settings, "stroke-width": number } })
       },
       reset() {
-        setControls(config)
+        setControls(() => {
+          return initialConfig
+        })
       }
     }
   ]
