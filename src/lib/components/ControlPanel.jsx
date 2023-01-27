@@ -2,7 +2,6 @@
 import { controlPanelStyle, controlStyle, inputStyle } from '../../styles'
 import { useControlPanel } from '../stores/controls';
 
-
 let fillInput
 let strokeInput
 let strokeWidthInput
