@@ -8,7 +8,7 @@ let strokeWidthInput
 
 const ControlPanel = props => {
   const [controls, { setCellWidth, setFill, setStroke, setStrokeWidth, reset }] = useControlPanel()
-  return (<div class={"no-print"} style={controlPanelStyle}>
+  return (<div class={"no-print no-select"} style={controlPanelStyle}>
     <div>Controls</div>
     <div style={controlStyle}>
       <label for="cell-width">cell-width</label>

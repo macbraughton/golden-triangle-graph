@@ -19,6 +19,12 @@ code {
     monospace;
 }
 
+.no-select {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
 .celltableWrapper {
   width: 100px;
   border: 1px solid black;

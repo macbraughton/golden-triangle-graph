@@ -4,10 +4,10 @@ import { w2h } from "../utils";
 const ControlPanelContext = createContext();
 
 const initialConfig = {
-  "cell-width": 30,
+  "cell-width": 20,
   "cell-height": w2h(30 * 2),
-  fill: "gray",
-  stroke: "black",
+  fill: "#ffcd06",
+  stroke: "#3b3b3b",
   "stroke-width": 1,
 }
 

@@ -31,6 +31,12 @@ const Graph = props => {
     }
   }
 
+  const doubleClick = (event) => {
+    console.log("dbc!")
+    let currentElement = event.target;
+    if (currentElement.classList.contains('cell')) { currentElement.classList.remove('no-fill'); }
+  }
+
   const mouseDown = (event) => {
     let currentElement = event.target;
     if (currentElement.classList.contains('cell')) { currentElement.classList.add('no-fill'); }
@@ -54,11 +60,13 @@ const Graph = props => {
   onMount(() => {
     window.addEventListener('mousewheel', mouseWheel)
     window.addEventListener('mousedown', mouseDown)
+    window.addEventListener('dblclick', doubleClick)
   })
 
   onCleanup(() => {
     window.removeEventListener('mousewheel', mouseWheel)
     window.removeEventListener('mousedown', mouseDown)
+    window.removeEventListener('dblclick', doubleClick)
   })
 
   return (
