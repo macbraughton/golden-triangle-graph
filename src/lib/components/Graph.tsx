@@ -75,6 +75,7 @@ const Graph = props => {
         <For each={initialCells()}>{cell =>
           <For each={cell.d}>{(dd, i) => 
             <path class="cell"
+              data-grid-axis={cell["grid-axis"]}
               data-axis={cell.axis} d={dd}
               data-cell-index={i()}
               fill={controls.fill}

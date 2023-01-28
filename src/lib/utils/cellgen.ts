@@ -36,25 +36,28 @@ export const gridDimensions = (w, h, viewPort) => {
   const yRange = range(-yRangeBase, yRangeBase, true)._data
   const cellAxes = genCellAxes(xRange, yRange).flat()
   const genCellCoords = (axes, w, h) => axes.map(a => [a[0] * w * 2, a[1] * h * 2])
+  const cellCoords = genCellCoords(cellAxes, w, h)
   let output = {
     cols,
     rows,
     xRange,
     yRange,
     cellAxes,
-    cellCoords: genCellCoords(cellAxes, w, h)
+    cellCoords
   }
   return output
 }
 const cellDrawString = coords => `M ${coords[0]} L ${coords[1]} L ${coords[2]} z`
 
 const genCellsCoords = (w, h, viewPort) => {
-  const output = gridDimensions(w, h, viewPort).cellCoords.map(axis => { return { axis, coords: genCellGroupCoordinates(axis, w, h) } }).flat()
+  const gd = gridDimensions(w, h, viewPort)
+  const output = gd.cellCoords.map((axis, i) => { return { "grid-axis": gd.cellAxes[i], axis, coords: genCellGroupCoordinates(axis, w, h) } }).flat()
   return output
 }
 
 export default function (w, h, viewPort) {
   const cells = genCellsCoords(w, h, viewPort)
-  const output = cells.map(cell => { return { axis: cell.axis, coords: cell.coords, d: cell.coords.map(cellDrawString) } })
+  console.log(cells)
+  const output = cells.map(cell => { return {"grid-axis": cell["grid-axis"], axis: cell.axis, coords: cell.coords, d: cell.coords.map(cellDrawString) } })
   return output
 }
