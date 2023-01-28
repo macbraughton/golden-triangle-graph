@@ -72,8 +72,16 @@ const Graph = props => {
   return (
     <Svg viewBox={viewBox()}>
       <g shape-rendering="geometricPrecision">
-        <For each={initialCells()}>{d =>
-          <path class="cell" d={d} fill={controls.fill} stroke={controls.stroke} stroke-width={controls["stroke-width"]} />
+        <For each={initialCells()}>{cell =>
+          <For each={cell.d}>{(dd, i) => 
+            <path class="cell"
+              data-axis={cell.axis} d={dd}
+              data-cell-index={i()}
+              fill={controls.fill}
+              stroke={controls.stroke}
+              stroke-width={controls["stroke-width"]} />
+          }
+          </For>
         }
         </For>
       </g>

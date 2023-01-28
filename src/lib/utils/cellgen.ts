@@ -49,8 +49,12 @@ export const gridDimensions = (w, h, viewPort) => {
 const cellDrawString = coords => `M ${coords[0]} L ${coords[1]} L ${coords[2]} z`
 
 const genCellsCoords = (w, h, viewPort) => {
-  const output = gridDimensions(w, h, viewPort).cellCoords.map(axis => genCellGroupCoordinates(axis, w, h)).flat()
+  const output = gridDimensions(w, h, viewPort).cellCoords.map(axis => { return { axis, coords: genCellGroupCoordinates(axis, w, h) } }).flat()
   return output
 }
 
-export default function (w, h, viewPort) { return genCellsCoords(w, h, viewPort).map(cellDrawString) }
+export default function (w, h, viewPort) {
+  const cells = genCellsCoords(w, h, viewPort)
+  const output = cells.map(cell => { return { axis: cell.axis, coords: cell.coords, d: cell.coords.map(cellDrawString) } })
+  return output
+}

@@ -1,6 +1,7 @@
 import { controlPanelStyle, controlStyle, inputStyle } from '../../styles'
 import { useControlPanel } from '../stores/controls';
 import { gridDimensions } from '../utils'
+import { useViewport } from '../stores/viewport';
 let cellWidthInput
 let fillInput
 let strokeInput
@@ -8,6 +9,9 @@ let strokeWidthInput
 
 const ControlPanel = props => {
   const [controls, { setCellWidth, setFill, setStroke, setStrokeWidth, reset }] = useControlPanel()
+  const [viewPort] = useViewport()
+  const gd = () => gridDimensions(controls["cell-width"], controls["cell-height"], viewPort())
+  console.log(gd())
   return (<div class={"no-print no-select"} style={controlPanelStyle}>
     <div>Controls</div>
     <div style={controlStyle}>
@@ -25,6 +29,10 @@ const ControlPanel = props => {
     <div style={controlStyle}>
       <label for="stroke-width">stroke-width</label>
       <input style={inputStyle} min={0} id="stroke-width" value={controls["stroke-width"]} onChange={(e) => setStrokeWidth(+e.target.value)} type="number" ref={strokeWidthInput} />
+    </div>
+    <div style={controlStyle}>
+      <label for="grid-dimensions">grid dimensions</label>
+      <div id="grid-dimensions" name="grid-dimensions">{gd().cols} x {gd().rows}</div>
     </div>
     <div>
       <button onClick={reset}>reset</button>
