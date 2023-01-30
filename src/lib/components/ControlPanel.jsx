@@ -11,7 +11,6 @@ const ControlPanel = props => {
   const [controls, { setCellWidth, setFill, setStroke, setStrokeWidth, reset }] = useControlPanel()
   const [viewPort] = useViewport()
   const gd = () => gridDimensions(controls["cell-width"], controls["cell-height"], viewPort())
-  console.log(gd())
   return (<div class={"no-print no-select"} style={controlPanelStyle}>
     <div>Controls</div>
     <div style={controlStyle}>

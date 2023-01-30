@@ -1,8 +1,8 @@
 import { unit, phi, tan } from "mathjs";
-import cellgen, { gridDimensions } from "./cellgen";
+import cellgen, { gridDimensions, toggleCells } from "./cellgen";
 
-export { cellgen }
-export { gridDimensions }
+export { cellgen, gridDimensions, toggleCells }
+
 export const alpha = unit(72, 'deg');
 export const beta = unit(36, 'deg');
 export const delta = unit(18, 'deg')

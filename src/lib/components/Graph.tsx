@@ -1,10 +1,10 @@
 import { useViewport } from '../stores/viewport'
 import Svg from '../components/Svg'
-import { w2h } from '../utils';
 import { onMount, onCleanup, For } from 'solid-js';
 import { cellgen } from '../utils'
 import { sign } from 'mathjs'
 import { useControlPanel } from '../stores/controls';
+import test from '../bitmaps/test'
 
 const Graph = props => {
   const [viewPort] = useViewport()
@@ -19,7 +19,7 @@ const Graph = props => {
   const h = () => controls["cell-height"]
 
   const initialCells = () => {
-    const output = cellgen(w(), h(), viewPort())
+    const output = cellgen(w(), h(), viewPort(), test())
     return output
   }
 
@@ -32,7 +32,6 @@ const Graph = props => {
   }
 
   const doubleClick = (event) => {
-    console.log("dbc!")
     let currentElement = event.target;
     if (currentElement.classList.contains('cell')) { currentElement.classList.remove('no-fill'); }
   }
@@ -73,15 +72,18 @@ const Graph = props => {
     <Svg viewBox={viewBox()}>
       <g shape-rendering="geometricPrecision">
         <For each={initialCells()}>{cell =>
-          <For each={cell.d}>{(dd, i) => 
-            <path class="cell"
+          <For each={cell.d}>{(dd, i) => {
+            const cb = () => +cell.bitmap?.split("")[i()]
+            return <path class="cell"
+              classList={{ "no-fill": cb() === 1 }}
               data-grid-axis={cell["grid-axis"]}
               data-axis={cell.axis} d={dd}
               data-cell-index={i()}
+              data-cell-bit={cb()}
               fill={controls.fill}
               stroke={controls.stroke}
               stroke-width={controls["stroke-width"]} />
-          }
+          }}
           </For>
         }
         </For>

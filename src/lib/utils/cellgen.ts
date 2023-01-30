@@ -26,6 +26,8 @@ const genCellAxes = (xRange, yRange) => {
   } else return yRange.map(x => xRange.map(y => [x, y]))
 }
 
+const xfaxis = (axis, w, h) => [axis[0] * w * 2, axis[1] * h * 2]
+
 export const gridDimensions = (w, h, viewPort) => {
   const dimensions = cellGroupDimensions(w, h)
   const cols = roundUpToOdd(viewPort.width / dimensions.width)
@@ -35,7 +37,7 @@ export const gridDimensions = (w, h, viewPort) => {
   const xRange = range(-xRangeBase, xRangeBase, true)._data
   const yRange = range(-yRangeBase, yRangeBase, true)._data
   const cellAxes = genCellAxes(xRange, yRange).flat()
-  const genCellCoords = (axes, w, h) => axes.map(a => [a[0] * w * 2, a[1] * h * 2])
+  const genCellCoords = (axes, w, h) => axes.map(a => xfaxis(a, w, h))
   const cellCoords = genCellCoords(cellAxes, w, h)
   let output = {
     cols,
@@ -47,6 +49,7 @@ export const gridDimensions = (w, h, viewPort) => {
   }
   return output
 }
+
 const cellDrawString = coords => `M ${coords[0]} L ${coords[1]} L ${coords[2]} z`
 
 const genCellsCoords = (w, h, viewPort) => {
@@ -54,10 +57,22 @@ const genCellsCoords = (w, h, viewPort) => {
   const output = gd.cellCoords.map((axis, i) => { return { "grid-axis": gd.cellAxes[i], axis, coords: genCellGroupCoordinates(axis, w, h) } }).flat()
   return output
 }
+export const toggleCells = (cells, cellmap) => {
 
-export default function (w, h, viewPort) {
+  let xfcell = ({ axis, w, h, byte }) => {
+    return {
+      axis: xfaxis(axis, w, h),
+      byte
+    }
+  }
+
+  console.log({ cellmap: cellmap.map(xfcell), cells })
+}
+
+export default function (w, h, viewPort, bitmap) {
   const cells = genCellsCoords(w, h, viewPort)
-  console.log(cells)
-  const output = cells.map(cell => { return {"grid-axis": cell["grid-axis"], axis: cell.axis, coords: cell.coords, d: cell.coords.map(cellDrawString) } })
+  const output = cells.map(cell => {
+    return { "grid-axis": cell["grid-axis"], axis: cell.axis, coords: cell.coords, d: cell.coords.map(cellDrawString), bitmap: bitmap[cell["grid-axis"].toString()] }
+  })
   return output
 }

@@ -3,9 +3,11 @@ import { createStore } from "solid-js/store";
 import { w2h } from "../utils";
 const ControlPanelContext = createContext();
 
+const lw = 12
+
 const initialConfig = {
-  "cell-width": 20,
-  "cell-height": w2h(30 * 2),
+  "cell-width": lw,
+  "cell-height": w2h(lw * 2),
   fill: "#ffcd06",
   stroke: "#3b3b3b",
   "stroke-width": 1,
