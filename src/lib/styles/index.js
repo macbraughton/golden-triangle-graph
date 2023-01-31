@@ -1,6 +1,5 @@
 export const controlPanelStyle = {
   position: "fixed",
-  height: "150px",
   width: "200px",
   left: "10px",
   top: "10px",
@@ -36,6 +35,7 @@ export const controlStyle = {
   "flex-direction": "row",
   "flex-wrap": "no-wrap",
   "justify-content": "space-between",
+  padding: "2px"
 }
 
 export const inputStyle = {
@@ -48,4 +48,10 @@ export const nodeStyle = {
   height: "100%",
   margin: 0,
   padding: 0
+}
+
+export const bitPatternStyle = {
+  display: "flex",
+  "justify-contenet": "center",
+  padding: "2px"
 }

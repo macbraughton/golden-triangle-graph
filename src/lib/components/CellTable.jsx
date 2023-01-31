@@ -1,4 +1,4 @@
-import Cell from './Cell'
+import Cell from './CellBit'
 import { cellTableStyle } from '../../styles'
   const CellTable = () => <div style={cellTableStyle}>
   <div class="celltable">

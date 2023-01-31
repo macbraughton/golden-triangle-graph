@@ -1,7 +1,7 @@
 import { unit, phi, tan } from "mathjs";
-import cellgen, { gridDimensions, toggleCells } from "./cellgen";
+import cellgen, { gridDimensions } from "./cellgen";
 
-export { cellgen, gridDimensions, toggleCells }
+export { cellgen, gridDimensions }
 
 export const alpha = unit(72, 'deg');
 export const beta = unit(36, 'deg');

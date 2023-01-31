@@ -11,6 +11,7 @@ const initialConfig = {
   fill: "#ffcd06",
   stroke: "#3b3b3b",
   "stroke-width": .3,
+  "bit-pattern": 0,
 }
 
 export const config = { ...initialConfig }
@@ -31,6 +32,9 @@ export const ControlPanelProvider = props => {
       },
       setStrokeWidth(number: number) {
         setControls(settings => { return { ...settings, "stroke-width": number } })
+      },
+      setBitPattern(number: number) {
+        setControls(settings => { return { ...settings, "bit-pattern": number } })
       },
       reset() {
         setControls(() => {

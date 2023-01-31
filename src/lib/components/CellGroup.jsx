@@ -1,5 +1,5 @@
 import { mergeProps } from 'solid-js'
-import Cell from './Cell'
+import Cell from './CellBit'
 import { h2w, w2h } from '../utils'
 const width = 100
 const height = w2h(width) * 2
