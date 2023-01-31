@@ -15,7 +15,7 @@ const ControlPanel = props => {
     <div>Controls</div>
     <div style={controlStyle}>
       <label for="cell-width">cell-width</label>
-      <input style={inputStyle} min={5} id="cell-width" value={controls["cell-width"]} onChange={(e) => setCellWidth(+e.target.value)} type="number" ref={cellWidthInput} />
+      <input style={inputStyle} min={4} id="cell-width" value={controls["cell-width"]} onChange={(e) => setCellWidth(+e.target.value)} type="number" ref={cellWidthInput} />
     </div>
     <div style={controlStyle}>
       <label for="fill">fill</label>
@@ -27,7 +27,7 @@ const ControlPanel = props => {
     </div>
     <div style={controlStyle}>
       <label for="stroke-width">stroke-width</label>
-      <input style={inputStyle} min={0} id="stroke-width" value={controls["stroke-width"]} onChange={(e) => setStrokeWidth(+e.target.value)} type="number" ref={strokeWidthInput} />
+      <input style={inputStyle} min={0} step={.1} id="stroke-width" value={controls["stroke-width"]} onChange={(e) => setStrokeWidth(+e.target.value)} type="number" ref={strokeWidthInput} />
     </div>
     <div style={controlStyle}>
       <label for="grid-dimensions">grid dimensions</label>

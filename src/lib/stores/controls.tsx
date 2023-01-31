@@ -10,7 +10,7 @@ const initialConfig = {
   "cell-height": w2h(lw * 2),
   fill: "#ffcd06",
   stroke: "#3b3b3b",
-  "stroke-width": 1,
+  "stroke-width": .3,
 }
 
 export const config = { ...initialConfig }
