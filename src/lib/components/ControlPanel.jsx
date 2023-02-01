@@ -1,7 +1,9 @@
 import { controlPanelStyle, controlStyle, inputStyle, bitPatternStyle } from '../styles'
 import { useControlPanel } from '../stores/controls';
-import { gridDimensions } from '../utils'
+import { d2byte, gridDimensions } from '../utils'
 import { useViewport } from '../stores/viewport';
+import AlphaCell from './AlphaCell'
+
 let cellWidthInput
 let fillInput
 let strokeInput
@@ -37,12 +39,13 @@ const ControlPanel = props => {
       </div>
       <div style={controlStyle}>
         <label for="bit-pattern">bit-pattern</label>
-        <input style={inputStyle} min={0} max={255} id="bit-pattern" value={controls["bit-pattern"]} onChange={(e) => setBitPattern(+e.target.value)} type="number" ref={bitPatternInput} />
+        <div>
+          <input style={inputStyle} min={0} max={255} id="bit-pattern" value={controls["bit-pattern"]} onChange={(e) => setBitPattern(+e.target.value)} type="number" ref={bitPatternInput} />
+          <div style={{"font-size": "10px", display: "flex", "justify-content": "center", padding: "5px"}}>{d2byte(controls["bit-pattern"])}</div>
+        </div>
       </div>
       <div style={bitPatternStyle}>
-        <svg viewBox='-60 -60 120 120' width="120" height="120">
-          <rect x="-60" y="-60" width="100%" height="100%" fill="green" />
-        </svg>
+        <AlphaCell controls={controls} />
       </div>
       <div>
         <button onClick={reset}>reset</button>

@@ -3,7 +3,7 @@ import { mergeProps } from "solid-js";
 import { vb } from "../utils";
 const viewBox = vb(120, 120)
 
-const SVGViewport = props => {
+const Svg = props => {
 
   const merged = mergeProps({ viewBox }, props)
   return (
@@ -13,4 +13,4 @@ const SVGViewport = props => {
   )
 }
 
-export default SVGViewport
+export default Svg

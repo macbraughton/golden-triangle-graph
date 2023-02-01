@@ -1,5 +1,6 @@
 import { useViewport } from '../stores/viewport'
 import Svg from '../components/Svg'
+import Cell from '../components/Cell'
 import { onMount, onCleanup, For } from 'solid-js';
 import { cellgen } from '../utils'
 import { sign } from 'mathjs'
@@ -71,21 +72,7 @@ const Graph = props => {
   return (
     <Svg viewBox={viewBox()}>
       <g shape-rendering="geometricPrecision">
-        <For each={initialCells()}>{cell =>
-          <For each={cell.d}>{(dd, i) => {
-            const cb = () => +cell.bitmap?.split("")[i()]
-            return <path class="cell"
-              classList={{ "no-fill": cb() === 1 }}
-              data-grid-axis={cell["grid-axis"]}
-              data-axis={cell.axis} d={dd}
-              data-cell-index={i()}
-              data-cell-bit={cb()}
-              fill={controls.fill}
-              stroke={controls.stroke}
-              stroke-width={controls["stroke-width"]} />
-          }}
-          </For>
-        }
+        <For each={initialCells()}>{cell => <Cell cell={cell} controls={controls} />}
         </For>
       </g>
     </Svg>

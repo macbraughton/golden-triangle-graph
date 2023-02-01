@@ -51,6 +51,7 @@ export const nodeStyle = {
 }
 
 export const bitPatternStyle = {
+  width: "20%",
   display: "flex",
   "justify-contenet": "center",
   padding: "2px"

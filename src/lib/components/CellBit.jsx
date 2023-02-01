@@ -42,7 +42,7 @@ const CellPicker = props => <Switch fallback={<WholeCell id="zozo" d={zozo} {...
   </Match>
 </Switch>
 
-export default function Cell(props) {
+export default function CellBit(props) {
   const merged = mergeProps({ svg, width, height, viewBox, stroke, strokeWidth, fill }, props)
   return <Switch fallback={
     <CellPicker {...merged} />

@@ -1,36 +1,38 @@
 import { ceil, floor, range } from 'mathjs';
+import w2h from './w2h';
 
-const baseCoordinates = (w, h) => {
+const baseCoordinates = (w: number, h: number) => {
   const quadraticArray = [[0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1]]
   return quadraticArray.map(el => [el[0] * w, el[1] * h])
 }
 
-const cellGroupDimensions = (w, h) => { return { width: w * 2, height: h * 2, area: w * h * 4 } }
-const roundUpToOdd = n => {
+const cellGroupDimensions = (w: number, h: number) => { return { width: w * 2, height: h * 2, area: w * h * 4 } }
+
+const roundUpToOdd = (n: number) => {
   let up = ceil(n)
   if (up % 2 === 0) {
     return up + 1
   } else return up
 }
 
-const genCellGroupCoordinates = (axis, w, h) => {
+const genCellGroupCoordinates = (axis: [number, number], w: number, h: number) => {
   const cellCoordIndexes = [[1, 0], [1, 2], [3, 2], [3, 4], [5, 4], [5, 6], [7, 6], [7, 0]]
   const cellCoordinates = baseCoordinates(w, h).map(a => [axis[0] + a[0], axis[1] + a[1]])
   return cellCoordIndexes.map((cci) => [axis, cellCoordinates[cci[0]], cellCoordinates[cci[1]]])
 }
 
 
-const genCellAxes = (xRange, yRange) => {
+const genCellAxes = (xRange: [number], yRange: [number]) => {
   if (xRange.length > yRange.length) {
     return xRange.map(x => yRange.map(y => [x, y]))
   } else return yRange.map(x => xRange.map(y => [x, y]))
 }
 
-const xfaxis = (axis, w, h) => [axis[0] * w * 2, axis[1] * h * 2]
+const xfaxis = (axis: [number, number], w: number, h: number) => [axis[0] * w * 2, axis[1] * h * 2]
 
-const genCellCoords = (axis, w, h) => axis.map(a => xfaxis(a, w, h))
+const genCellCoords = (axis: [number, number], w: number, h: number) => axis.map(a => xfaxis(a, w, h))
 
-export const gridDimensions = (w, h, viewPort) => {
+export const gridDimensions = (w: number, h: number, viewPort) => {
   const dimensions = cellGroupDimensions(w, h)
   const cols = roundUpToOdd(viewPort.width / dimensions.width)
   const rows = roundUpToOdd(viewPort.height / dimensions.height)
@@ -51,14 +53,24 @@ export const gridDimensions = (w, h, viewPort) => {
   return output
 }
 
-const cellDrawString = coords => `M ${coords[0]} L ${coords[1]} L ${coords[2]} z`
+const cellDrawString = (coords: [number, number, number]) => `M ${coords[0]} L ${coords[1]} L ${coords[2]} z`
 
-export const genCell = (axis, w, h) => {
+export const genCell = (axis: [number, number], w: number, h: number) => {
   return { axis, coords: genCellGroupCoordinates(axis, w, h) }
 }
 
+const genCellRenderObject = (cell, bitPattern) => {
+  return { axis: cell.axis, coords: cell.coords, d: cell.coords.map(cellDrawString), "bit-pattern": bitPattern }
+}
 
-const genCellsCoords = (w, h, viewPort) => {
+export const genAlphaCell = (w: number, h: number, bitPattern) => {
+  w = w ? w : 60
+  h = h ? h : w2h(60)
+  bitPattern = bitPattern ? bitPattern : 0
+  return genCellRenderObject(genCell([0, 0], w, h), bitPattern)
+}
+
+const genCellsCoords = (w: number, h: number, viewPort) => {
   const gd = gridDimensions(w, h, viewPort)
   const output = gd.cellCoords.map((axis, i) => {
     const cell = genCell(axis, w, h)
@@ -67,12 +79,11 @@ const genCellsCoords = (w, h, viewPort) => {
   return output
 }
 
-const genCellRenderObject = (cell, bitmap) => {
-  return { "grid-axis": cell["grid-axis"], axis: cell.axis, coords: cell.coords, d: cell.coords.map(cellDrawString), bitmap: bitmap[cell["grid-axis"].toString()] }
-}
-
-export default function (w, h, viewPort, bitmap) {
+export default function (w: number, h: number, viewPort, bitmap) {
   const cells = genCellsCoords(w, h, viewPort)
-  const output = cells.map(cell => genCellRenderObject(cell, bitmap))
+  const output = cells.map(cell => {
+    const renderObject = genCellRenderObject(cell, bitmap[cell["grid-axis"].toString()])
+    return { "grid-axis": cell["grid-axis"], ...renderObject }
+  })
   return output
 }
