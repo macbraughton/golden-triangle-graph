@@ -11,12 +11,9 @@ const AlphaCell = (props) => {
     return { ...genAlphaCell(props.controls["cell-width"] * 2, props.controls["cell-height"] * 2, props.controls["bit-pattern"]) }
   }
   return (
-    <>
-    {console.log(d2byte(cell()["bit-pattern"]))}
     <Svg viewBox={viewBox()}>
       <Cell cell={cell()} {...props} />
     </Svg>
-    </>
   )
 }
 
