@@ -3,8 +3,9 @@ import cellgen, { gridDimensions } from "./cellgen";
 import h2w from "./h2w";
 import w2h from "./w2h";
 import gamma from "./gamma"
+import adjustAxis from "./adjustAxis";
 
-export { cellgen, gridDimensions, h2w, w2h, gamma }
+export { cellgen, gridDimensions, h2w, w2h, gamma, adjustAxis }
 
 export const d2byte = (n: number) => {
   let base = "00000000"
@@ -13,6 +14,7 @@ export const d2byte = (n: number) => {
   }
   else return base
 }
+
 export const alpha = unit(72, 'deg');
 export const beta = unit(36, 'deg');
 export const delta = unit(18, 'deg')

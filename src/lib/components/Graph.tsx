@@ -5,7 +5,7 @@ import { onMount, onCleanup, For } from 'solid-js';
 import { cellgen } from '../utils'
 import { sign } from 'mathjs'
 import { useControlPanel } from '../stores/controls';
-import test from '../bitmaps/test'
+import { H } from '../bitmaps'
 
 const Graph = props => {
   const [viewPort] = useViewport()
@@ -20,7 +20,7 @@ const Graph = props => {
   const h = () => controls["cell-height"]
 
   const initialCells = () => {
-    const output = cellgen(w(), h(), viewPort(), test())
+    const output = cellgen(w(), h(), viewPort(), H([0,0]))
     return output
   }
 
