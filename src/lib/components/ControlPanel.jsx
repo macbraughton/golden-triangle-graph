@@ -10,10 +10,12 @@ let strokeInput
 let strokeWidthInput
 let bitPatternInput
 
+
 const ControlPanel = props => {
-  const [controls, { setCellWidth, setFill, setStroke, setStrokeWidth, setBitPattern, reset }] = useControlPanel()
+  const [controls, { setCellWidth, setFill, setStroke, setStrokeWidth, setBitmap, reset }] = useControlPanel()
   const [viewPort] = useViewport()
   const gd = () => gridDimensions(controls["cell-width"], controls["cell-height"], viewPort())
+  const logBitmap = () => console.log({...controls.bitmap})
   return (
     <div class={"no-print no-select"} style={controlPanelStyle}>
       <div>Controls</div>
@@ -40,8 +42,8 @@ const ControlPanel = props => {
       <div style={controlStyle}>
         <label for="bit-pattern">bit-pattern</label>
         <div>
-          <input style={inputStyle} min={0} max={255} id="bit-pattern" value={controls["bit-pattern"]["x,y"]} onChange={(e) => setBitPattern(+e.target.value)} type="number" ref={bitPatternInput} />
-          <div style={{"font-size": "10px", display: "flex", "justify-content": "center", padding: "5px"}}>{d2byte(controls["bit-pattern"]["x,y"])}</div>
+          <input style={inputStyle} min={0} max={255} id="bit-pattern" value={controls["bitmap"]["x,y"]} onChange={(e) => setBitmap({"x,y": +e.target.value})} type="number" ref={bitPatternInput} />
+          <div style={{"font-size": "10px", display: "flex", "justify-content": "center", padding: "5px"}}>{d2byte(controls["bitmap"]["x,y"])}</div>
         </div>
       </div>
       <div style={bitPatternStyle}>
@@ -49,6 +51,9 @@ const ControlPanel = props => {
       </div>
       <div>
         <button onClick={reset}>reset</button>
+      </div>
+      <div>
+        <button onClick={logBitmap}>log</button>
       </div>
     </div>)
 }

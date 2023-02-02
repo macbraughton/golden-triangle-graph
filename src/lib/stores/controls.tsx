@@ -1,9 +1,10 @@
 import { createContext, useContext } from "solid-js";
 import { createStore } from "solid-js/store";
 import { w2h } from "../utils";
+import { H } from "../bitmaps";
 const ControlPanelContext = createContext();
 
-const lw = 8
+const lw = 10
 
 const initialConfig = {
   "cell-width": lw,
@@ -11,7 +12,7 @@ const initialConfig = {
   fill: "#ffcd06",
   stroke: "#3b3b3b",
   "stroke-width": .3,
-  "bit-pattern": {["x,y"]: 0}
+  "bitmap": {"x,y": 0}
 }
 
 export const config = { ...initialConfig }
@@ -35,6 +36,9 @@ export const ControlPanelProvider = props => {
       },
       setBitPattern(number: number) {
         setControls(settings => { return { ...settings, "bit-pattern": {"x,y": number} } })
+      },
+      setBitmap(bitPattern) {
+        setControls(settings => { return {...settings, bitmap: {...settings.bitmap, ...bitPattern}}})
       },
       reset() {
         setControls(() => {

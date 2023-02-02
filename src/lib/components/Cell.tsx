@@ -4,7 +4,7 @@ import { d2byte } from "../utils"
 const Cell = (props) => {
   return (
     <For each={props.cell.d}>{(dd, i) => {
-      const bitString = () => d2byte(props.bitmap[props.cell["grid-axis"]])
+      const bitString = () => d2byte(props.controls.bitmap[props.cell["grid-axis"]])
       const cellBit = () => +bitString().split("")[i()]
       return <path class="cell"
         data-grid-axis={props.cell["grid-axis"]}

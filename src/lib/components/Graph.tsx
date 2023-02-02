@@ -10,8 +10,7 @@ import { useBitmap } from '../stores/bitmap';
 
 const Graph = props => {
   const [viewPort] = useViewport()
-  const [controls, { setCellWidth }] = useControlPanel()
-  const [bitmap, { setBitmap }] = useBitmap()
+  const [controls, { setCellWidth, setBitmap }] = useControlPanel()
   const minX = () => viewPort()["min-x"]
   const minY = () => viewPort()["min-y"]
   const width = () => viewPort().width
@@ -40,7 +39,7 @@ const Graph = props => {
       let bpcp = el.dataset.bitPattern.split("")
       bpcp[el.dataset.cellBitIndex] = 0
       let newbp = bpcp.join("")
-      setBitmap({ [el.dataset.gridAxis]: newbp })
+      setBitmap({ [el.dataset.gridAxis]: parseInt(newbp, 2) })
     }
   }
 
@@ -50,7 +49,7 @@ const Graph = props => {
       let bpcp = el.dataset.bitPattern.split("")
       bpcp[el.dataset.cellBitIndex] = 1
       let newbp = bpcp.join("")
-      setBitmap({ [el.dataset.gridAxis]: newbp })
+      setBitmap({ [el.dataset.gridAxis]: parseInt(newbp, 2) })
     }
 
     const mouseMoveHandler = (moveEvent) => {
@@ -61,7 +60,7 @@ const Graph = props => {
           let bpcp = el.dataset.bitPattern.split("")
           bpcp[el.dataset.cellBitIndex] = 1
           let newbp = bpcp.join("")
-          setBitmap({ [el.dataset.gridAxis]: newbp })
+          setBitmap({ [el.dataset.gridAxis]: parseInt(newbp, 2) })
         }
       }
     };
@@ -89,7 +88,7 @@ const Graph = props => {
   return (
     <Svg viewBox={viewBox()}>
       <g shape-rendering="geometricPrecision">
-        <For each={initialCells()}>{cell => <Cell cell={cell} controls={controls} bitmap={bitmap} />}
+        <For each={initialCells()}>{cell => <Cell cell={cell} controls={controls} />}
         </For>
       </g>
     </Svg>
