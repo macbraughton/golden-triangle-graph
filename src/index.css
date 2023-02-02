@@ -42,7 +42,7 @@ code {
     "f g h"
 }
 
-.no-fill {
+[data-cell-bit="1"] {
   opacity: .1;
 }
 

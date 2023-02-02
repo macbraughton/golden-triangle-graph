@@ -59,15 +59,14 @@ export const genCell = (axis: [number, number], w: number, h: number) => {
   return { axis, coords: genCellGroupCoordinates(axis, w, h) }
 }
 
-const genCellRenderObject = (cell, bitPattern) => {
-  return { axis: cell.axis, coords: cell.coords, d: cell.coords.map(cellDrawString), "bit-pattern": bitPattern }
+const genCellRenderObject = (cell) => {
+  return { axis: cell.axis, coords: cell.coords, d: cell.coords.map(cellDrawString) }
 }
 
-export const genAlphaCell = (w: number, h: number, bitPattern) => {
+export const genAlphaCell = (w: number, h: number) => {
   w = w ? w : 60
   h = h ? h : w2h(60)
-  bitPattern = bitPattern ? bitPattern : 0
-  return genCellRenderObject(genCell([0, 0], w, h), bitPattern)
+  return {"grid-axis": ["x,y"], ...genCellRenderObject({ ...genCell([0, 0], w, h)})}
 }
 
 const genCellsCoords = (w: number, h: number, viewPort) => {
@@ -79,10 +78,10 @@ const genCellsCoords = (w: number, h: number, viewPort) => {
   return output
 }
 
-export default function (w: number, h: number, viewPort, bitmap) {
+export default function (w: number, h: number, viewPort) {
   const cells = genCellsCoords(w, h, viewPort)
   const output = cells.map(cell => {
-    const renderObject = genCellRenderObject(cell, bitmap[cell["grid-axis"].toString()])
+    const renderObject = genCellRenderObject(cell)
     return { "grid-axis": cell["grid-axis"], ...renderObject }
   })
   return output

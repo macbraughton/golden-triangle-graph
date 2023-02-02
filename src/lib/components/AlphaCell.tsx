@@ -1,5 +1,5 @@
 import { genAlphaCell } from '../utils/cellgen';
-import { d2byte, vb } from '../utils';
+import { vb } from '../utils';
 import Cell from './Cell';
 import Svg from './Svg'
 
@@ -7,12 +7,11 @@ const AlphaCell = (props) => {
   const width = () => props.controls["cell-width"] * 2
   const height = () => props.controls["cell-height"] * 2
   const viewBox = () => vb(width(), height())
-  const cell = () => {
-    return { ...genAlphaCell(props.controls["cell-width"] * 2, props.controls["cell-height"] * 2, props.controls["bit-pattern"]) }
-  }
+  const cell = genAlphaCell(props.controls["cell-width"] * 2, props.controls["cell-height"] * 2)
+
   return (
     <Svg viewBox={viewBox()}>
-      <Cell cell={cell()} {...props} />
+      <Cell cell={cell} bitmap={props.controls["bit-pattern"]} {...props} />
     </Svg>
   )
 }

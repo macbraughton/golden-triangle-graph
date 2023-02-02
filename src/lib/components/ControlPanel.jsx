@@ -40,8 +40,8 @@ const ControlPanel = props => {
       <div style={controlStyle}>
         <label for="bit-pattern">bit-pattern</label>
         <div>
-          <input style={inputStyle} min={0} max={255} id="bit-pattern" value={controls["bit-pattern"]} onChange={(e) => setBitPattern(+e.target.value)} type="number" ref={bitPatternInput} />
-          <div style={{"font-size": "10px", display: "flex", "justify-content": "center", padding: "5px"}}>{d2byte(controls["bit-pattern"])}</div>
+          <input style={inputStyle} min={0} max={255} id="bit-pattern" value={controls["bit-pattern"]["x,y"]} onChange={(e) => setBitPattern(+e.target.value)} type="number" ref={bitPatternInput} />
+          <div style={{"font-size": "10px", display: "flex", "justify-content": "center", padding: "5px"}}>{d2byte(controls["bit-pattern"]["x,y"])}</div>
         </div>
       </div>
       <div style={bitPatternStyle}>

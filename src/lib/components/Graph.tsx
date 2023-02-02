@@ -6,10 +6,12 @@ import { cellgen } from '../utils'
 import { sign } from 'mathjs'
 import { useControlPanel } from '../stores/controls';
 import { H, Y } from '../bitmaps'
+import { useBitmap } from '../stores/bitmap';
 
 const Graph = props => {
   const [viewPort] = useViewport()
   const [controls, { setCellWidth }] = useControlPanel()
+  const [bitmap, { setBitmap }] = useBitmap()
   const minX = () => viewPort()["min-x"]
   const minY = () => viewPort()["min-y"]
   const width = () => viewPort().width
@@ -20,7 +22,7 @@ const Graph = props => {
   const h = () => controls["cell-height"]
 
   const initialCells = () => {
-    const output = cellgen(w(), h(), viewPort(), {...H([-7, 0]), ...Y([6, 0])})
+    const output = cellgen(w(), h(), viewPort())
     return output
   }
 
@@ -33,19 +35,34 @@ const Graph = props => {
   }
 
   const doubleClick = (event) => {
-    let currentElement = event.target;
-    if (currentElement.classList.contains('cell')) { currentElement.classList.remove('no-fill'); }
+    let el = event.target;
+    if (+el.dataset.cellBit === 1) {
+      let bpcp = el.dataset.bitPattern.split("")
+      bpcp[el.dataset.cellBitIndex] = 0
+      let newbp = bpcp.join("")
+      setBitmap({ [el.dataset.gridAxis]: newbp })
+    }
   }
 
   const mouseDown = (event) => {
-    let currentElement = event.target;
-    if (currentElement.classList.contains('cell')) { currentElement.classList.add('no-fill'); }
+    let el = event.target;
+    if (+el.dataset.cellBit === 0) {
+      let bpcp = el.dataset.bitPattern.split("")
+      bpcp[el.dataset.cellBitIndex] = 1
+      let newbp = bpcp.join("")
+      setBitmap({ [el.dataset.gridAxis]: newbp })
+    }
 
     const mouseMoveHandler = (moveEvent) => {
       let newElement = document.elementsFromPoint(moveEvent.clientX, moveEvent.clientY).find(element => element.classList);
-      if (newElement !== currentElement) {
-        currentElement = newElement;
-        if (currentElement.classList.contains('cell')) { currentElement.classList.add('no-fill'); }
+      if (newElement !== el) {
+        el = newElement;
+        if (+el.dataset.cellBit === 0) {
+          let bpcp = el.dataset.bitPattern.split("")
+          bpcp[el.dataset.cellBitIndex] = 1
+          let newbp = bpcp.join("")
+          setBitmap({ [el.dataset.gridAxis]: newbp })
+        }
       }
     };
 
@@ -72,7 +89,7 @@ const Graph = props => {
   return (
     <Svg viewBox={viewBox()}>
       <g shape-rendering="geometricPrecision">
-        <For each={initialCells()}>{cell => <Cell cell={cell} controls={controls} />}
+        <For each={initialCells()}>{cell => <Cell cell={cell} controls={controls} bitmap={bitmap} />}
         </For>
       </g>
     </Svg>

@@ -4,14 +4,14 @@ import { d2byte } from "../utils"
 const Cell = (props) => {
   return (
     <For each={props.cell.d}>{(dd, i) => {
-      const bitString = () => +d2byte(props.cell["bit-pattern"]).split("")[i()]
-      const cb = () => +(props.cell["bit-pattern"])?.toString(2).split("")[i()] || 0
+      const bitString = () => d2byte(props.bitmap[props.cell["grid-axis"]])
+      const cellBit = () => +bitString().split("")[i()]
       return <path class="cell"
-        classList={{ "no-fill": bitString() === 1 }}
         data-grid-axis={props.cell["grid-axis"]}
         data-axis={props.cell.axis} d={dd}
-        data-cell-index={i()}
-        data-cell-bit={cb()}
+        data-cell-bit-index={i()}
+        data-cell-bit={cellBit()}
+        data-bit-pattern={bitString()}
         fill={props.controls.fill}
         stroke={props.controls.stroke}
         stroke-width={props.controls["stroke-width"]} />
