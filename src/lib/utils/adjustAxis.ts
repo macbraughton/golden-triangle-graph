@@ -1,4 +1,4 @@
-const adjustAxis = base => {
+const adjustAxis = (axis, base) => {
   const output = {}
   Object.keys(base).map(key => {
     let newkey = key.split(",").map(n => +n)

@@ -3,7 +3,7 @@ import { createStore } from "solid-js/store";
 import { w2h } from "../utils";
 const ControlPanelContext = createContext();
 
-const lw = 12
+const lw = 8
 
 const initialConfig = {
   "cell-width": lw,
