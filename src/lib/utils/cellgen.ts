@@ -66,7 +66,7 @@ const genCellRenderObject = (cell) => {
 export const genAlphaCell = (w: number, h: number) => {
   w = w ? w : 60
   h = h ? h : w2h(60)
-  return {"grid-axis": ["x,y"], ...genCellRenderObject({ ...genCell([0, 0], w, h)})}
+  return {"grid-axis": "x,y", ...genCellRenderObject({ ...genCell([0, 0], w, h)})}
 }
 
 const genCellsCoords = (w: number, h: number, viewPort) => {

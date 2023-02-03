@@ -12,7 +12,7 @@ const initialConfig = {
   fill: "#ffcd06",
   stroke: "#3b3b3b",
   "stroke-width": .3,
-  "bitmap": {"x,y": 0}
+  "bitmap": { "x,y": 0 }
 }
 
 export const config = { ...initialConfig }
@@ -35,10 +35,10 @@ export const ControlPanelProvider = props => {
         setControls(settings => { return { ...settings, "stroke-width": number } })
       },
       setBitPattern(number: number) {
-        setControls(settings => { return { ...settings, "bit-pattern": {"x,y": number} } })
+        setControls(settings => { return { ...settings, "bit-pattern": { "x,y": number } } })
       },
       setBitmap(bitPattern) {
-        setControls(settings => { return {...settings, bitmap: {...settings.bitmap, ...bitPattern}}})
+        setControls(settings => { return { ...settings, bitmap: { ...settings.bitmap, ...bitPattern } } })
       },
       reset() {
         setControls(() => {
