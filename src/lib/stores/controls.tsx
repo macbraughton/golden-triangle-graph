@@ -11,7 +11,9 @@ const initialConfig = {
   "cell-height": w2h(lw * 2),
   fill: "#ffcd06",
   stroke: "#3b3b3b",
+  "opacity": 0.2,
   "stroke-width": .3,
+  "background-color": "#FFFFFF",
   "bitmap": { "x,y": 0 }
 }
 
@@ -39,6 +41,12 @@ export const ControlPanelProvider = props => {
       },
       setBitmap(bitPattern) {
         setControls(settings => { return { ...settings, bitmap: { ...settings.bitmap, ...bitPattern } } })
+      },
+      setOpacity(number: number) {
+        setControls(settings => { return { ...settings, "opacity": number } })
+      },
+      setBackgroundColor(string: string) {
+        setControls(settings => { return { ...settings, "background-color": string } })
       },
       reset() {
         setControls(() => {

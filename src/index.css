@@ -1,3 +1,7 @@
+:root {
+  --cell-opacity: 0.2
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -42,8 +46,8 @@ code {
     "f g h"
 }
 
-[data-cell-bit="1"] {
-  opacity: .1;
+[data-cell-bit="0"] {
+  opacity: var(--cell-opacity);
 }
 
 .a {

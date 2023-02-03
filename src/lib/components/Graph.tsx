@@ -86,12 +86,14 @@ const Graph = props => {
   })
 
   return (
-    <Svg viewBox={viewBox()}>
-      <g shape-rendering="geometricPrecision">
-        <For each={initialCells()}>{cell => <Cell cell={cell} controls={controls} />}
-        </For>
-      </g>
-    </Svg>
+    <div style={{ "background-color": controls["background-color"] }}>
+      <Svg viewBox={viewBox()}>
+        <g shape-rendering="geometricPrecision">
+          <For each={initialCells()}>{cell => <Cell cell={cell} controls={controls} />}
+          </For>
+        </g>
+      </Svg>
+    </div>
   );
 }
 

@@ -3,19 +3,34 @@ import { useControlPanel } from '../stores/controls';
 import { d2byte, gridDimensions } from '../utils'
 import { useViewport } from '../stores/viewport';
 import AlphaCell from './AlphaCell'
+import { createEffect } from 'solid-js';
 
 let cellWidthInput
 let fillInput
 let strokeInput
 let strokeWidthInput
 let bitPatternInput
-
+let opacityInput
+let backgroundColorInput
 
 const ControlPanel = props => {
-  const [controls, { setCellWidth, setFill, setStroke, setStrokeWidth, setBitmap, reset }] = useControlPanel()
+  const [controls, { setCellWidth, setFill, setStroke, setStrokeWidth, setBitmap, setOpacity, setBackgroundColor, reset }] = useControlPanel()
   const [viewPort] = useViewport()
   const gd = () => gridDimensions(controls["cell-width"], controls["cell-height"], viewPort())
-  const logBitmap = () => console.log({...controls.bitmap})
+  const copyBitmap = async () => {
+    let output = {...controls.bitmap}
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(output));
+      console.log(output);
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
+  }
+  
+  createEffect(() => {
+    document.documentElement.style.setProperty("--cell-opacity", controls["opacity"])
+  })
+  
   return (
     <div class={"no-print no-select"} style={controlPanelStyle}>
       <div>Controls</div>
@@ -40,12 +55,24 @@ const ControlPanel = props => {
         <div id="grid-dimensions" name="grid-dimensions">{gd().cols} x {gd().rows}</div>
       </div>
       <div style={controlStyle}>
+        <label for="opacity">opacity</label>
+        <input style={inputStyle} min={0} step={.05} max={1} id="opacity" value={controls["opacity"]} onChange={ (e) => setOpacity(+e.target.value)} type="number" ref={opacityInput} />
+      </div>
+      <div style={controlStyle}>
+        <label for="background-color">background</label>
+        <input style={inputStyle} id="background-color" value={controls["background-color"]} onChange={(e) => setBackgroundColor(e.target.value)} type="text" ref={backgroundColorInput} />
+      </div>
+      <div style={controlStyle}>
         <label for="bit-pattern">bit-pattern</label>
         <div>
           <input style={inputStyle} min={0} max={255} id="bit-pattern" value={controls["bitmap"]["x,y"]} onChange={(e) => setBitmap({"x,y": +e.target.value})} type="number" ref={bitPatternInput} />
           <div style={{"font-size": "10px", display: "flex", "justify-content": "center", padding: "5px"}}>{d2byte(controls["bitmap"]["x,y"])}</div>
         </div>
       </div>
+      {/* Implement
+          - toggle cursor
+          - background color
+      */}
       <div style={bitPatternStyle}>
         <AlphaCell controls={controls} />
       </div>
@@ -53,7 +80,7 @@ const ControlPanel = props => {
         <button onClick={reset}>reset</button>
       </div>
       <div>
-        <button onClick={logBitmap}>log</button>
+        <button onClick={copyBitmap}>copy bitmap</button>
       </div>
     </div>)
 }
