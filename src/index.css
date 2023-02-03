@@ -1,5 +1,6 @@
 :root {
-  --cell-opacity: 0.2
+  --cell-bit-0-opacity: 0.2
+  --cell-bit-1-opacity: 1
 }
 
 body {
@@ -47,7 +48,11 @@ code {
 }
 
 [data-cell-bit="0"] {
-  opacity: var(--cell-opacity);
+  opacity: var(--cell-bit-0-opacity);
+}
+
+[data-cell-bit="1"] {
+  opacity: var(--cell-bit-1-opacity);
 }
 
 .a {
@@ -81,3 +86,38 @@ code {
 .h {
   grid-area: h;
 }
+
+input#switch {
+  -webkit-appearance: none;
+  position: relative;
+  width: 25px;
+  height: 15px;
+  border-radius: 10px;
+  background-color: #ccc;
+  transition: background .3s;
+  outline: none;
+  cursor: pointer
+}
+
+input#switch::after {
+  content: ''; 
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  width: .75rem;
+  height: .75rem;
+  background-color: rgb(255, 255, 255);
+  transition: left .3s;
+  border: 1px solid #BEBEBE;
+}
+
+input#switch:checked {
+  background-color: #080808;
+}
+
+input#switch:checked::after {
+  left: 70%;
+}
+ 

@@ -12,13 +12,14 @@ let strokeWidthInput
 let bitPatternInput
 let opacityInput
 let backgroundColorInput
+let cursorBitInput
 
 const ControlPanel = props => {
-  const [controls, { setCellWidth, setFill, setStroke, setStrokeWidth, setBitmap, setOpacity, setBackgroundColor, reset }] = useControlPanel()
+  const [controls, { setCellWidth, setFill, setStroke, setStrokeWidth, setBitmap, setOpacity, setBackgroundColor, setCursorBit, reset }] = useControlPanel()
   const [viewPort] = useViewport()
   const gd = () => gridDimensions(controls["cell-width"], controls["cell-height"], viewPort())
   const copyBitmap = async () => {
-    let output = {...controls.bitmap}
+    let output = { ...controls.bitmap }
     try {
       await navigator.clipboard.writeText(JSON.stringify(output));
       console.log(output);
@@ -26,11 +27,12 @@ const ControlPanel = props => {
       console.error('Failed to copy: ', err);
     }
   }
-  
+
   createEffect(() => {
-    document.documentElement.style.setProperty("--cell-opacity", controls["opacity"])
+    document.documentElement.style.setProperty("--cell-bit-0-opacity", controls["opacity"])
+    console.log(controls["cursor-bit"])
   })
-  
+
   return (
     <div class={"no-print no-select"} style={controlPanelStyle}>
       <div>Controls</div>
@@ -56,7 +58,7 @@ const ControlPanel = props => {
       </div>
       <div style={controlStyle}>
         <label for="opacity">opacity</label>
-        <input style={inputStyle} min={0} step={.05} max={1} id="opacity" value={controls["opacity"]} onChange={ (e) => setOpacity(+e.target.value)} type="number" ref={opacityInput} />
+        <input style={inputStyle} min={0} step={.05} max={1} id="opacity" value={controls["opacity"]} onChange={(e) => setOpacity(+e.target.value)} type="number" ref={opacityInput} />
       </div>
       <div style={controlStyle}>
         <label for="background-color">background</label>
@@ -65,14 +67,16 @@ const ControlPanel = props => {
       <div style={controlStyle}>
         <label for="bit-pattern">bit-pattern</label>
         <div>
-          <input style={inputStyle} min={0} max={255} id="bit-pattern" value={controls["bitmap"]["x,y"]} onChange={(e) => setBitmap({"x,y": +e.target.value})} type="number" ref={bitPatternInput} />
-          <div style={{"font-size": "10px", display: "flex", "justify-content": "center", padding: "5px"}}>{d2byte(controls["bitmap"]["x,y"])}</div>
+          <input style={inputStyle} min={0} max={255} id="bit-pattern" value={controls["bitmap"]["x,y"]} onChange={(e) => setBitmap({ "x,y": +e.target.value })} type="number" ref={bitPatternInput} />
+          <div style={{ "font-size": "10px", display: "flex", "justify-content": "center", padding: "5px" }}>{d2byte(controls["bitmap"]["x,y"])}</div>
         </div>
       </div>
-      {/* Implement
-          - toggle cursor
-          - background color
-      */}
+      <div style={controlStyle}>
+        <label for="switch" class="toggle">cursor</label>
+        <input checked={Boolean(controls["cursor-bit"])} type="checkbox" id="switch" value={Boolean(controls["cursor-bit"])} class="checkbox" onChange={() => {
+          setCursorBit(+!controls["cursor-bit"])
+          }} ref={cursorBitInput} />
+      </div>
       <div style={bitPatternStyle}>
         <AlphaCell controls={controls} />
       </div>

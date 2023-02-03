@@ -14,7 +14,8 @@ const initialConfig = {
   "opacity": 0.2,
   "stroke-width": .3,
   "background-color": "#FFFFFF",
-  "bitmap": { "x,y": 0 }
+  "bitmap": { "x,y": 0 },
+  "cursor-bit": 1,
 }
 
 export const config = { ...initialConfig }
@@ -47,6 +48,9 @@ export const ControlPanelProvider = props => {
       },
       setBackgroundColor(string: string) {
         setControls(settings => { return { ...settings, "background-color": string } })
+      },
+      setCursorBit(string: string) {
+        setControls(settings => { return { ...settings, "cursor-bit": string } })
       },
       reset() {
         setControls(() => {

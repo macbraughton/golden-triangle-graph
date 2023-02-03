@@ -9,13 +9,12 @@ const AlphaCell = (props) => {
   const background = () => props.controls["background-color"]
   const viewBox = () => vb(width(), height())
   const rectCoords = () => viewBox().split(" ").slice(0,2)
-  console.log(rectCoords())
-  const cell = genAlphaCell(props.controls["cell-width"] * 2, props.controls["cell-height"] * 2)
+  const cell = () => genAlphaCell(props.controls["cell-width"] * 2, props.controls["cell-height"] * 2)
 
   return (
     <Svg viewBox={viewBox()}>
       <rect x={rectCoords()[0]} y={rectCoords()[1]} width="100%" height="100%" fill={background()} />
-      <Cell cell={cell} bitmap={props.controls["bit-pattern"]} {...props} />
+      <Cell cell={cell()} bitmap={props.controls["bit-pattern"]} {...props} />
     </Svg>
   )
 }

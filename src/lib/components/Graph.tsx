@@ -5,12 +5,10 @@ import { onMount, onCleanup, For } from 'solid-js';
 import { cellgen } from '../utils'
 import { sign } from 'mathjs'
 import { useControlPanel } from '../stores/controls';
-import { H, Y } from '../bitmaps'
-import { useBitmap } from '../stores/bitmap';
 
 const Graph = props => {
   const [viewPort] = useViewport()
-  const [controls, { setCellWidth, setBitmap }] = useControlPanel()
+  const [controls, { setCellWidth, setBitmap, setCursorBit }] = useControlPanel()
   const minX = () => viewPort()["min-x"]
   const minY = () => viewPort()["min-y"]
   const width = () => viewPort().width
@@ -32,7 +30,13 @@ const Graph = props => {
       setCellWidth(+w() - 1)
     }
   }
-
+  
+  const spaceBar = (event) => {
+    if (event.key == " " || event.code == "Space" || event.keyCode == "32") {
+      setCursorBit(+!controls["cursor-bit"])
+    }
+  }
+  
   const doubleClick = (event) => {
     let el = event.target;
     if (+el.dataset.cellBit === 1) {
@@ -45,9 +49,10 @@ const Graph = props => {
 
   const mouseDown = (event) => {
     let el = event.target;
-    if (+el.dataset.cellBit === 0) {
+    console.log(controls["cursor-bit"])
+    if (+el.dataset.cellBit === +!controls["cursor-bit"]) {
       let bpcp = el.dataset.bitPattern.split("")
-      bpcp[el.dataset.cellBitIndex] = 1
+      bpcp[el.dataset.cellBitIndex] = controls["cursor-bit"]
       let newbp = bpcp.join("")
       setBitmap({ [el.dataset.gridAxis]: parseInt(newbp, 2) })
     }
@@ -56,9 +61,9 @@ const Graph = props => {
       let newElement = document.elementsFromPoint(moveEvent.clientX, moveEvent.clientY).find(element => element.classList);
       if (newElement !== el) {
         el = newElement;
-        if (+el.dataset.cellBit === 0) {
+        if (+el.dataset.cellBit === +!controls["cursor-bit"]) {
           let bpcp = el.dataset.bitPattern.split("")
-          bpcp[el.dataset.cellBitIndex] = 1
+          bpcp[el.dataset.cellBitIndex] = controls["cursor-bit"]
           let newbp = bpcp.join("")
           setBitmap({ [el.dataset.gridAxis]: parseInt(newbp, 2) })
         }
@@ -66,20 +71,21 @@ const Graph = props => {
     };
 
     window.addEventListener('mousemove', mouseMoveHandler);
-
     window.addEventListener('mouseup', () => {
       window.removeEventListener('mousemove', mouseMoveHandler);
     });
   };
-
-
+  
+  
   onMount(() => {
+    window.addEventListener('keyup', spaceBar)
     window.addEventListener('mousewheel', mouseWheel)
     window.addEventListener('mousedown', mouseDown)
     window.addEventListener('dblclick', doubleClick)
   })
 
   onCleanup(() => {
+    window.addEventListener('keyup', spaceBar)
     window.removeEventListener('mousewheel', mouseWheel)
     window.removeEventListener('mousedown', mouseDown)
     window.removeEventListener('dblclick', doubleClick)
