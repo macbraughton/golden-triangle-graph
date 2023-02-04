@@ -1,20 +1,20 @@
 import { createContext, useContext } from "solid-js";
 import { createStore } from "solid-js/store";
 import { w2h } from "../utils";
-import { H } from "../bitmaps";
+import { logo } from "../bitmaps";
 const ControlPanelContext = createContext();
 
-const lw = 10
+const lw = 6
 
 const initialConfig = {
   "cell-width": lw,
   "cell-height": w2h(lw * 2),
   fill: "#ffcd06",
-  stroke: "#3b3b3b",
-  "opacity": 0.2,
-  "stroke-width": .3,
-  "background-color": "#FFFFFF",
-  "bitmap": { "x,y": 0 },
+  stroke: "#ffcd06",
+  "opacity": 0,
+  "stroke-width": .5,
+  "background-color": "#333333",
+  "bitmap": { "x,y": 0, ...logo() },
   "cursor-bit": 1,
 }
 

@@ -5,6 +5,7 @@ import { onMount, onCleanup, For } from 'solid-js';
 import { cellgen } from '../utils'
 import { sign } from 'mathjs'
 import { useControlPanel } from '../stores/controls';
+import { logo } from '../bitmaps'
 
 const Graph = props => {
   const [viewPort] = useViewport()
@@ -14,7 +15,7 @@ const Graph = props => {
   const width = () => viewPort().width
   const height = () => viewPort().height
   const viewBox = () => `${minX()} ${minY()} ${width()} ${height()}`
-
+  setBitmap(logo())
   const w = () => controls["cell-width"]
   const h = () => controls["cell-height"]
 
@@ -30,13 +31,13 @@ const Graph = props => {
       setCellWidth(+w() - 1)
     }
   }
-  
+
   const spaceBar = (event) => {
     if (event.key == " " || event.code == "Space" || event.keyCode == "32") {
       setCursorBit(+!controls["cursor-bit"])
     }
   }
-  
+
   const doubleClick = (event) => {
     let el = event.target;
     if (+el.dataset.cellBit === 1) {
@@ -49,7 +50,6 @@ const Graph = props => {
 
   const mouseDown = (event) => {
     let el = event.target;
-    console.log(controls["cursor-bit"])
     if (+el.dataset.cellBit === +!controls["cursor-bit"]) {
       let bpcp = el.dataset.bitPattern.split("")
       bpcp[el.dataset.cellBitIndex] = controls["cursor-bit"]
@@ -75,8 +75,8 @@ const Graph = props => {
       window.removeEventListener('mousemove', mouseMoveHandler);
     });
   };
-  
-  
+
+
   onMount(() => {
     window.addEventListener('keyup', spaceBar)
     window.addEventListener('mousewheel', mouseWheel)

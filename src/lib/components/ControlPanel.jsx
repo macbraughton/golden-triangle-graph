@@ -19,7 +19,12 @@ const ControlPanel = props => {
   const [viewPort] = useViewport()
   const gd = () => gridDimensions(controls["cell-width"], controls["cell-height"], viewPort())
   const copyBitmap = async () => {
-    let output = { ...controls.bitmap }
+    let output = {}
+    Object.keys(controls.bitmap).map(key => {
+      if (controls.bitmap[key] !== 0) {
+        output[key] = controls.bitmap[key]
+      }
+    })
     try {
       await navigator.clipboard.writeText(JSON.stringify(output));
       console.log(output);
@@ -30,7 +35,6 @@ const ControlPanel = props => {
 
   createEffect(() => {
     document.documentElement.style.setProperty("--cell-bit-0-opacity", controls["opacity"])
-    console.log(controls["cursor-bit"])
   })
 
   return (
@@ -75,7 +79,7 @@ const ControlPanel = props => {
         <label for="switch" class="toggle">cursor</label>
         <input checked={Boolean(controls["cursor-bit"])} type="checkbox" id="switch" value={Boolean(controls["cursor-bit"])} class="checkbox" onChange={() => {
           setCursorBit(+!controls["cursor-bit"])
-          }} ref={cursorBitInput} />
+        }} ref={cursorBitInput} />
       </div>
       <div style={bitPatternStyle}>
         <AlphaCell controls={controls} />
