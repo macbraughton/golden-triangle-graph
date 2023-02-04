@@ -9,12 +9,12 @@ const lw = 6
 const initialConfig = {
   "cell-width": lw,
   "cell-height": w2h(lw * 2),
-  fill: "#ffcd06",
-  stroke: "#ffcd06",
+  fill: "#e2b644",
+  stroke: "#e2b644",
   "opacity": 0,
   "stroke-width": .5,
   "background-color": "#333333",
-  "bitmap": { "x,y": 0, ...logo() },
+  "bitmap": { "x,y": 0 },
   "cursor-bit": 1,
 }
 
