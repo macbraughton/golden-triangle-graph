@@ -9,4 +9,5 @@ import hyx from "./hyx"
 import yy from "./yy"
 import yy2 from "./yy2"
 import hyxos from "./hyxos"
-export { H, Y, X, O, S, logo, hyx, bl, yy, yy2, hyxos } 
+import hyxos2 from "./hyxos2"
+export { H, Y, X, O, S, logo, hyx, bl, yy, yy2, hyxos, hyxos2 } 
