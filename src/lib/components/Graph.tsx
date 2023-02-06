@@ -5,7 +5,7 @@ import { onMount, onCleanup, For } from 'solid-js';
 import { cellgen } from '../utils'
 import { sign } from 'mathjs'
 import { useControlPanel } from '../stores/controls';
-import { H, X, Y, O, S, logo } from '../bitmaps/02_04'
+import { H, X, Y, O, S, logo } from '../bitmaps/02_06'
 
 const Graph = props => {
   const [viewPort] = useViewport()
