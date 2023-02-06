@@ -4,14 +4,14 @@ import { w2h } from "../utils";
 import { logo } from "../bitmaps";
 const ControlPanelContext = createContext();
 
-const lw = 8
+const lw = 6
 
 const initialConfig = {
   "cell-width": lw,
   "cell-height": w2h(lw * 2),
   fill: "#e2b644",
-  stroke: "#333333",
-  "opacity": .2,
+  stroke: "#e2b644",
+  "opacity": 0,
   "stroke-width": .5,
   "background-color": "#333333",
   "bitmap": { "x,y": 0 },
