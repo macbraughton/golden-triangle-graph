@@ -1,9 +1,10 @@
 import { For } from "solid-js"
-import { d2byte } from "../utils"
+import { corner, d2byte } from "../utils"
 
 const Cell = (props) => {
   return (
     <For each={props.cell.d}>{(dd, i) => {
+      const c = () => corner(props.controls.bitmap[props.cell["grid-axis"]])
       const bitString = () => d2byte(props.controls.bitmap[props.cell["grid-axis"]])
       const cellBit = () => +bitString().split("")[i()]
       return <path class="cell"
@@ -12,7 +13,7 @@ const Cell = (props) => {
         data-cell-bit-index={i()}
         data-cell-bit={cellBit()}
         data-bit-pattern={bitString()}
-        fill={props.controls.fill}
+        fill={c() ? "green": props.controls.fill}
         stroke={props.controls.stroke}
         stroke-width={props.controls["stroke-width"]} />
     }}

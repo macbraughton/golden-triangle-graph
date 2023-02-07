@@ -1,8 +1,9 @@
 import { controlPanelStyle, controlStyle, inputStyle, bitPatternStyle } from '../styles'
 import { useControlPanel } from '../stores/controls';
-import { d2byte, gridDimensions } from '../utils'
+import { d2byte, gridDimensions, corner, bitmapRange, tribyte } from '../utils'
 import { useViewport } from '../stores/viewport';
 import AlphaCell from './AlphaCell'
+import BetaCell from './BetaCell'
 import { createEffect } from 'solid-js';
 
 let cellWidthInput
@@ -20,6 +21,7 @@ const ControlPanel = props => {
   const gd = () => gridDimensions(controls["cell-width"], controls["cell-height"], viewPort())
   const copyBitmap = async () => {
     let output = {}
+    bitmapRange(controls.bitmap)
     Object.keys(controls.bitmap).map(key => {
       if (controls.bitmap[key] !== 0) {
         output[key] = controls.bitmap[key]
@@ -69,20 +71,26 @@ const ControlPanel = props => {
         <input style={inputStyle} id="background-color" value={controls["background-color"]} onChange={(e) => setBackgroundColor(e.target.value)} type="text" ref={backgroundColorInput} />
       </div>
       <div style={controlStyle}>
-        <label for="bit-pattern">bit-pattern</label>
-        <div>
-          <input style={inputStyle} min={0} max={255} id="bit-pattern" value={controls["bitmap"]["x,y"]} onChange={(e) => setBitmap({ "x,y": +e.target.value })} type="number" ref={bitPatternInput} />
-          <div style={{ "font-size": "10px", display: "flex", "justify-content": "center", padding: "5px" }}>{d2byte(controls["bitmap"]["x,y"])}</div>
-        </div>
-      </div>
-      <div style={controlStyle}>
         <label for="switch" class="toggle">cursor</label>
         <input checked={Boolean(controls["cursor-bit"])} type="checkbox" id="switch" value={Boolean(controls["cursor-bit"])} class="checkbox" onChange={() => {
           setCursorBit(+!controls["cursor-bit"])
         }} ref={cursorBitInput} />
       </div>
-      <div style={bitPatternStyle}>
-        <AlphaCell controls={controls} />
+      <div style={controlStyle}>
+        <label for="bit-pattern">bit-pattern</label>
+        <div>
+          <input style={inputStyle} min={0} max={255} id="bit-pattern" value={controls["bitmap"]["x,y"]} onChange={(e) => setBitmap({ "x,y": +e.target.value })} type="number" ref={bitPatternInput} />
+          <div style={{ "font-size": "10px", display: "flex", "justify-content": "center", padding: "5px" }}>{d2byte(controls["bitmap"]["x,y"])}</div>
+          <div style={{ "font-size": "10px", display: "flex", "justify-content": "center", padding: "5px" }}>{corner(controls["bitmap"]["x,y"]).toString()}</div>
+        </div>
+      </div>
+      <div style={{...controlStyle, "justify-content": "space-around"}}>
+        <div style={bitPatternStyle}>
+          <AlphaCell controls={controls} />
+        </div>
+        <div style={bitPatternStyle}>
+          <BetaCell controls={controls} />
+        </div>
       </div>
       <div>
         <button onClick={reset}>reset</button>

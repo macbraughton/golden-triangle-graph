@@ -1,8 +1,11 @@
 import { ceil, floor, range } from 'mathjs';
+import { d2byte } from '.';
 import w2h from './w2h';
 
+export const quadraticArray = [[0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1]]
+
+
 const baseCoordinates = (w: number, h: number) => {
-  const quadraticArray = [[0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1]]
   return quadraticArray.map(el => [el[0] * w, el[1] * h])
 }
 
@@ -32,6 +35,13 @@ const xfaxis = (axis: [number, number], w: number, h: number) => [axis[0] * w * 
 
 const genCellCoords = (axis: [number, number], w: number, h: number) => axis.map(a => xfaxis(a, w, h))
 
+export const tribyte = input => {
+  const defaults = { axis: [0, 0], w: 1, h: 1, byte: 255 }
+  const output = {...defaults, ...input}
+  const genCoords = genCellGroupCoordinates(output.axis, output.w, output.h).filter((a, i) => +d2byte(output.byte)[i])
+  return genCoords
+}
+
 export const gridDimensions = (w: number, h: number, viewPort) => {
   const dimensions = cellGroupDimensions(w, h)
   const cols = roundUpToOdd(viewPort.width / dimensions.width)
@@ -53,7 +63,7 @@ export const gridDimensions = (w: number, h: number, viewPort) => {
   return output
 }
 
-const cellDrawString = (coords: [number, number, number]) => `M ${coords[0]} L ${coords[1]} L ${coords[2]} z`
+export const cellDrawString = (coords: [number, number, number]) => `M ${coords[0]} L ${coords[1]} L ${coords[2]} z`
 
 export const genCell = (axis: [number, number], w: number, h: number) => {
   return { axis, coords: genCellGroupCoordinates(axis, w, h) }
@@ -66,7 +76,7 @@ const genCellRenderObject = (cell) => {
 export const genAlphaCell = (w: number, h: number) => {
   w = w ? w : 60
   h = h ? h : w2h(60)
-  return {"grid-axis": "x,y", ...genCellRenderObject({ ...genCell([0, 0], w, h)})}
+  return { "grid-axis": "x,y", ...genCellRenderObject({ ...genCell([0, 0], w, h) }) }
 }
 
 const genCellsCoords = (w: number, h: number, viewPort) => {

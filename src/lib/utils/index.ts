@@ -1,11 +1,11 @@
-import { unit, phi, tan } from "mathjs";
-import cellgen, { gridDimensions } from "./cellgen";
+import { unit, phi, tan, max, min } from "mathjs";
+import cellgen, { gridDimensions, tribyte } from "./cellgen";
 import h2w from "./h2w";
 import w2h from "./w2h";
 import gamma from "./gamma"
 import adjustAxis from "./adjustAxis";
 
-export { cellgen, gridDimensions, h2w, w2h, gamma, adjustAxis }
+export { cellgen, gridDimensions, h2w, w2h, gamma, adjustAxis, tribyte }
 
 export const d2byte = (n: number) => {
   let base = "00000000"
@@ -13,6 +13,57 @@ export const d2byte = (n: number) => {
     return (base + n.toString(2)).slice(-8)
   }
   else return base
+}
+
+const calcSmoothBytes = () => {
+  let base = [1, 1, 1, 1, 0, 0, 0, 0]
+  let numbers = []
+  for (let i = 0; i < 8; i++) {
+    numbers.push(parseInt(base.join(""), 2))
+    let a = base.pop()
+    base.unshift(a)
+  }
+  return numbers
+}
+
+const smoothBytes = [
+  240,
+  120,
+  60,
+  30,
+  15,
+  135,
+  195,
+  225
+]
+
+export const corner = byte => {
+  byte = byte ? byte : 0
+
+  if (byte === 0 || byte === 255 || smoothBytes.includes(byte)) {
+    return false
+  }
+  else return true
+}
+
+export const bitmapRange = bitmap => {
+  const ranges = {x: [], y: []}
+  const sort = (a, b) => a - b
+  bitmap = {...bitmap}
+  delete bitmap["x,y"]
+  console.log(bitmap)
+  Object.keys(bitmap).map(key => {
+    let [x, y] = key.split(",")
+    ranges.x.push(+x)
+    ranges.y.push(+y)
+  })
+  const sortedRanges = { x: Array.from(new Set(ranges.x.sort(sort))), y: Array.from(new Set(ranges.y.sort(sort)))}
+  console.log(sortedRanges)
+  const topRowKeys = Object.keys(bitmap).filter(key => {
+    let [x, y] = key.split(",")
+    return +y === sortedRanges.y[0]
+  })
+  console.log(topRowKeys)
 }
 
 export const alpha = unit(72, 'deg');
