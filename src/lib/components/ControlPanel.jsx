@@ -1,6 +1,6 @@
 import { controlPanelStyle, controlStyle, inputStyle, bitPatternStyle } from '../styles'
 import { useControlPanel } from '../stores/controls';
-import { d2byte, gridDimensions, corner, bitmapRange, tribyte } from '../utils'
+import { d2byte, gridDimensions, bitmapRange } from '../utils'
 import { useViewport } from '../stores/viewport';
 import AlphaCell from './AlphaCell'
 import BetaCell from './BetaCell'
@@ -81,7 +81,6 @@ const ControlPanel = props => {
         <div>
           <input style={inputStyle} min={0} max={255} id="bit-pattern" value={controls["bitmap"]["x,y"]} onChange={(e) => setBitmap({ "x,y": +e.target.value })} type="number" ref={bitPatternInput} />
           <div style={{ "font-size": "10px", display: "flex", "justify-content": "center", padding: "5px" }}>{d2byte(controls["bitmap"]["x,y"])}</div>
-          <div style={{ "font-size": "10px", display: "flex", "justify-content": "center", padding: "5px" }}>{corner(controls["bitmap"]["x,y"]).toString()}</div>
         </div>
       </div>
       <div style={{...controlStyle, "justify-content": "space-around"}}>
@@ -100,4 +99,5 @@ const ControlPanel = props => {
       </div>
     </div>)
 }
+
 export default ControlPanel

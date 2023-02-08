@@ -4,7 +4,6 @@ import w2h from './w2h';
 
 export const quadraticArray = [[0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1]]
 
-
 const baseCoordinates = (w: number, h: number) => {
   return quadraticArray.map(el => [el[0] * w, el[1] * h])
 }
@@ -24,7 +23,6 @@ const genCellGroupCoordinates = (axis: [number, number], w: number, h: number) =
   return cellCoordIndexes.map((cci) => [axis, cellCoordinates[cci[0]], cellCoordinates[cci[1]]])
 }
 
-
 const genCellAxes = (xRange: [number], yRange: [number]) => {
   if (xRange.length > yRange.length) {
     return xRange.map(x => yRange.map(y => [x, y]))
@@ -37,9 +35,30 @@ const genCellCoords = (axis: [number, number], w: number, h: number) => axis.map
 
 export const tribyte = input => {
   const defaults = { axis: [0, 0], w: 1, h: 1, byte: 255 }
-  const output = {...defaults, ...input}
-  const genCoords = genCellGroupCoordinates(output.axis, output.w, output.h).filter((a, i) => +d2byte(output.byte)[i])
-  return genCoords
+  const output = { ...defaults, ...input }
+  const gc = genCellGroupCoordinates(output.axis, output.w, output.h)
+  const groupCoords = (gc, byte) => {
+    let store = []
+    let byteStringArray = d2byte(byte).split("").map(b => +b)
+    byteStringArray.map((b, i, a) => {
+      if (b && i === 0) {
+        store.push([gc[i]])
+      } else if (b && i === 7) {
+        if (a[0]) {
+          store[0].push(gc[i])
+        } else if (a[i - 1]) {
+          store[store.length - 1].push(gc[i])
+        } else store.push([gc[i]])
+      } else if (b) {
+        if (a[i - 1]) {
+          store[store.length - 1].push(gc[i])
+        } else store.push([gc[i]])
+      }
+    })
+    return store
+  }
+  let op = groupCoords(gc, output.byte)
+  return op
 }
 
 export const gridDimensions = (w: number, h: number, viewPort) => {
@@ -63,7 +82,9 @@ export const gridDimensions = (w: number, h: number, viewPort) => {
   return output
 }
 
-export const cellDrawString = (coords: [number, number, number]) => `M ${coords[0]} L ${coords[1]} L ${coords[2]} z`
+export const cellDrawString = (coords: [number, number, number]) => {
+  return `M ${coords[0]} L ${coords[1]} L ${coords[2]} z`
+}
 
 export const genCell = (axis: [number, number], w: number, h: number) => {
   return { axis, coords: genCellGroupCoordinates(axis, w, h) }
