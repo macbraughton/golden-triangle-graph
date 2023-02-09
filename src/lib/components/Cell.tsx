@@ -1,14 +1,21 @@
 import { For } from "solid-js"
 import { d2byte } from "../utils"
+import { genTribyteCoordinates, cellDrawString } from "../utils/cellgen"
 
 const Cell = (props) => {
+  const tb = () => {
+    const tbc = genTribyteCoordinates(props.cell.axis, props.controls["cell-width"],  props.controls["cell-height"])
+    return tbc.map(cellDrawString)
+  }
   return (
-    <For each={props.cell.d}>{(dd, i) => {
+    <For each={tb()}>{(dd, i) => {
       const bitString = () => d2byte(props.controls.bitmap[props.cell["grid-axis"]])
       const cellBit = () => +bitString().split("")[i()]
-      return <path class="cell"
+      return <path
+        class="cell"
+        d={dd}
         data-grid-axis={props.cell["grid-axis"]}
-        data-axis={props.cell.axis} d={dd}
+        data-axis={props.cell.axis}
         data-cell-bit-index={i()}
         data-cell-bit={cellBit()}
         data-bit-pattern={bitString()}

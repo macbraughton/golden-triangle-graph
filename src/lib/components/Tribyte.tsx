@@ -1,7 +1,6 @@
 import { For } from "solid-js"
 import { cellDrawString } from "../utils/cellgen"
 import { tribyte } from "../utils/cellgen"
-//  let settings  = { "grid-axis": "x,y", axis: settings.axis, coords: tribyte(settings)}
 
 const Tribyte = (props) => {
   const tb = () => tribyte({
@@ -10,6 +9,7 @@ const Tribyte = (props) => {
     h: props.controls["cell-height"], 
     byte: props.controls.bitmap[props.cell["grid-axis"]]
   })
+  
   return (
     <For each={tb()}>{(co, i) => {
       const d = co.map(cellDrawString).join(" ")

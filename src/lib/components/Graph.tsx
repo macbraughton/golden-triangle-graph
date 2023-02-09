@@ -20,7 +20,7 @@ const Graph = props => {
   const w = () => controls["cell-width"]
   const h = () => controls["cell-height"]
 
-  const initialCells = () => {
+  const cellAxes = () => {
     const output = cellgen(w(), h(), viewPort())
     return output
   }
@@ -98,11 +98,10 @@ const Graph = props => {
         <g shape-rendering="geometricPrecision">
           <Show when={controls["beta-cell"]}
             fallback={
-
-              <For each={initialCells()}>{cell => <Cell cell={cell} controls={controls} />}
+              <For each={cellAxes()}>{cell => <Cell cell={cell} controls={controls} />}
               </For>
             }>
-            <For each={initialCells()}>{cell => <Tribyte cell={cell} controls={controls} />}
+            <For each={cellAxes()}>{cell => <Tribyte cell={cell} controls={controls} />}
             </For>
           </Show>
         </g>
