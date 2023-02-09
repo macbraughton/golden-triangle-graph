@@ -17,7 +17,6 @@ export const genTribyteCoordinates = (axis = [0, 0], w = 1, h = 1) => {
 
 const cellDimensions = (w = 1, h = 1) => { return { width: w * 2, height: h * 2, area: w * h * 4 } }
 
-
 const xfAxis = (axis = [1, 1], w = 1, h = 1) => [axis[0] * w * 2, axis[1] * h * 2]
 
 const genGridAxes = (xRange = [-1, 0, 1], yRange =[-1, 0, 1]) => {
