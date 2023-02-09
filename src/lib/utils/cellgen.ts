@@ -33,30 +33,32 @@ const xfaxis = (axis: [number, number], w: number, h: number) => [axis[0] * w * 
 
 const genCellCoords = (axis: [number, number], w: number, h: number) => axis.map(a => xfaxis(a, w, h))
 
+const groupCoords = (gc, byte) => {
+  const byteStringArray = d2byte(byte).split("").map(b => +b)
+  let coords = gc.reduce((ac, val, i) => {
+    if (byteStringArray[i] && i === 0) {
+      ac = [[val]]
+    } 
+    else if (byteStringArray[7] && i === 7) {
+      if (byteStringArray[0]) {
+        ac[0] = [...ac[0], val]
+      } else if (byteStringArray[i - 1]) {
+        ac[ac.length - 1] = [...ac[ac.length - 1], val] 
+      } else ac = [...ac, [val]]
+    } else if (byteStringArray[i]) {
+      if (byteStringArray[i - 1]) {
+        ac[ac.length - 1] = [...ac[ac.length - 1], val] 
+      } else ac = [...ac, [val]]
+    }
+      return ac
+  }, [])
+  return coords
+}
+
 export const tribyte = input => {
   const defaults = { axis: [0, 0], w: 1, h: 1, byte: 255 }
   const output = { ...defaults, ...input }
   const gc = genCellGroupCoordinates(output.axis, output.w, output.h)
-  const groupCoords = (gc, byte) => {
-    let store = []
-    let byteStringArray = d2byte(byte).split("").map(b => +b)
-    byteStringArray.map((b, i, a) => {
-      if (b && i === 0) {
-        store.push([gc[i]])
-      } else if (b && i === 7) {
-        if (a[0]) {
-          store[0].push(gc[i])
-        } else if (a[i - 1]) {
-          store[store.length - 1].push(gc[i])
-        } else store.push([gc[i]])
-      } else if (b) {
-        if (a[i - 1]) {
-          store[store.length - 1].push(gc[i])
-        } else store.push([gc[i]])
-      }
-    })
-    return store
-  }
   let op = groupCoords(gc, output.byte)
   return op
 }
@@ -102,8 +104,8 @@ export const genAlphaCell = (w: number, h: number) => {
 
 export const genBetaCell = (input) => {
   const defaults = { axis: [0, 0], w: 1, h: 1, byte: 255 }
-  const settings = {...defaults, ...input}
-  return { "grid-axis": "x,y", axis: settings.axis, coords: tribyte(settings)}
+  const settings = { ...defaults, ...input }
+  return { "grid-axis": "x,y", axis: settings.axis, coords: tribyte(settings) }
 }
 
 const genCellsCoords = (w: number, h: number, viewPort) => {
