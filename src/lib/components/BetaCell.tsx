@@ -1,4 +1,4 @@
-import { vb, tribyte } from '../utils';
+import { vb } from '../utils';
 import Tribyte from './Tribyte';
 import Svg from './Svg'
 import { genBetaCell } from '../utils/cellgen';
@@ -8,7 +8,6 @@ const BetaCell = (props) => {
   const background = () => props.controls["background-color"]
   const viewBox = () => vb(width(), height())
   const rectCoords = () => viewBox().split(" ").slice(0, 2)
-  const tb = () => tribyte({ w: props.controls["cell-width"] * 2, h: props.controls["cell-height"] * 2, byte: props.controls.bitmap["x,y"] })
   const bc = () => genBetaCell({ w: props.controls["cell-width"] * 2, h: props.controls["cell-height"] * 2, byte: props.controls.bitmap["x,y"] })
   
   return (

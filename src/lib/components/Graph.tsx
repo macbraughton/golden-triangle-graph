@@ -25,7 +25,7 @@ const Graph = props => {
     return output
   }
 
-  const mouseWheel = (event) => {
+  const mouseWheel = (event: Event) => {
     if (sign(event.deltaY) > 0) {
       setCellWidth(+w() + 1)
     } else if (+w() > 4) {
@@ -33,13 +33,13 @@ const Graph = props => {
     }
   }
 
-  const spaceBar = (event) => {
+  const spaceBar = (event: Event) => {
     if (event.key == " " || event.code == "Space" || event.keyCode == "32") {
       setCursorBit(+!controls["cursor-bit"])
     }
   }
 
-  const doubleClick = (event) => {
+  const doubleClick = (event: Event) => {
     let el = event.target;
     if (+el.dataset.cellBit === 1) {
       let bpcp = el.dataset.bitPattern.split("")
@@ -49,7 +49,7 @@ const Graph = props => {
     }
   }
 
-  const mouseDown = (event) => {
+  const mouseDown = (event: Event) => {
     let el = event.target;
     if (+el.dataset.cellBit === +!controls["cursor-bit"]) {
       let bpcp = el.dataset.bitPattern.split("")
@@ -58,7 +58,7 @@ const Graph = props => {
       setBitmap({ [el.dataset.gridAxis]: parseInt(newbp, 2) })
     }
 
-    const mouseMoveHandler = (moveEvent) => {
+    const mouseMoveHandler = (moveEvent: Event) => {
       let newElement = document.elementsFromPoint(moveEvent.clientX, moveEvent.clientY).find(element => element.classList);
       if (newElement !== el) {
         el = newElement;
