@@ -1,10 +1,9 @@
 import { createContext, useContext } from "solid-js";
 import { createStore } from "solid-js/store";
 import { w2h } from "../utils";
-import { logo } from "../bitmaps";
 const ControlPanelContext = createContext();
 
-const lw = 18
+const lw = 8
 
 const initialConfig = {
   "cell-width": lw,
@@ -16,6 +15,7 @@ const initialConfig = {
   "background-color": "#333333",
   "bitmap": { "x,y": 0 },
   "cursor-bit": 1,
+  "beta-cell": 0,
 }
 
 export const config = { ...initialConfig }
@@ -51,6 +51,9 @@ export const ControlPanelProvider = props => {
       },
       setCursorBit(string: string) {
         setControls(settings => { return { ...settings, "cursor-bit": string } })
+      },
+      setBetaCell(string: string) {
+        setControls(settings => { return { ...settings, "beta-cell": string } })
       },
       reset() {
         setControls(() => {

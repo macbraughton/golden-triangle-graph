@@ -87,7 +87,7 @@ code {
   grid-area: h;
 }
 
-input#switch {
+input[type='checkbox'] {
   -webkit-appearance: none;
   position: relative;
   width: 25px;
@@ -99,7 +99,7 @@ input#switch {
   cursor: pointer
 }
 
-input#switch::after {
+input[type='checkbox']::after {
   content: ''; 
   position: absolute;
   top: 50%;
@@ -113,11 +113,11 @@ input#switch::after {
   border: 1px solid #BEBEBE;
 }
 
-input#switch:checked {
+input[type='checkbox']:checked {
   background-color: #080808;
 }
 
-input#switch:checked::after {
+input[type='checkbox']:checked::after {
   left: 70%;
 }
  

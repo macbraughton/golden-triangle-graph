@@ -14,9 +14,20 @@ let bitPatternInput
 let opacityInput
 let backgroundColorInput
 let cursorBitInput
+let betaCellInput
 
 const ControlPanel = props => {
-  const [controls, { setCellWidth, setFill, setStroke, setStrokeWidth, setBitmap, setOpacity, setBackgroundColor, setCursorBit, reset }] = useControlPanel()
+  const [controls, { 
+    setCellWidth, 
+    setFill, 
+    setStroke, 
+    setStrokeWidth, 
+    setBitmap, 
+    setOpacity, 
+    setBackgroundColor, 
+    setCursorBit,
+    setBetaCell,
+    reset }] = useControlPanel()
   const [viewPort] = useViewport()
   const gd = () => gridDimensions(controls["cell-width"], controls["cell-height"], viewPort())
   const copyBitmap = async () => {
@@ -71,10 +82,16 @@ const ControlPanel = props => {
         <input style={inputStyle} id="background-color" value={controls["background-color"]} onChange={(e) => setBackgroundColor(e.target.value)} type="text" ref={backgroundColorInput} />
       </div>
       <div style={controlStyle}>
-        <label for="switch" class="toggle">cursor</label>
-        <input checked={Boolean(controls["cursor-bit"])} type="checkbox" id="switch" value={Boolean(controls["cursor-bit"])} class="checkbox" onChange={() => {
+        <label for="cursor" class="toggle">cursor</label>
+        <input checked={Boolean(controls["cursor-bit"])} type="checkbox" id="cursor" value={Boolean(controls["cursor-bit"])} class="checkbox" onChange={() => {
           setCursorBit(+!controls["cursor-bit"])
         }} ref={cursorBitInput} />
+      </div>
+      <div style={controlStyle}>
+        <label for="beta-cell" class="toggle">beta-cell</label>
+        <input checked={Boolean(controls["beta-cell"])} type="checkbox" id="beta-cell" value={Boolean(controls["beta-cell"])} class="checkbox" onChange={() => {
+          setBetaCell(+!controls["beta-cell"])
+        }} ref={betaCellInput} />
       </div>
       <div style={controlStyle}>
         <label for="bit-pattern">bit-pattern</label>

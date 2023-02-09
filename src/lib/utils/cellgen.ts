@@ -100,6 +100,12 @@ export const genAlphaCell = (w: number, h: number) => {
   return { "grid-axis": "x,y", ...genCellRenderObject({ ...genCell([0, 0], w, h) }) }
 }
 
+export const genBetaCell = (input) => {
+  const defaults = { axis: [0, 0], w: 1, h: 1, byte: 255 }
+  const settings = {...defaults, ...input}
+  return { "grid-axis": "x,y", axis: settings.axis, coords: tribyte(settings)}
+}
+
 const genCellsCoords = (w: number, h: number, viewPort) => {
   const gd = gridDimensions(w, h, viewPort)
   const output = gd.cellCoords.map((axis, i) => {

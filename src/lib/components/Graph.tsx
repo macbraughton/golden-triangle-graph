@@ -1,11 +1,12 @@
 import { useViewport } from '../stores/viewport'
 import Svg from '../components/Svg'
 import Cell from '../components/Cell'
-import { onMount, onCleanup, For } from 'solid-js';
+import { onMount, onCleanup, For, Show } from 'solid-js';
 import { cellgen } from '../utils'
 import { sign } from 'mathjs'
 import { useControlPanel } from '../stores/controls';
-import { H, X, Y, O, S, logo } from '../bitmaps/02_06'
+import { logo } from '../bitmaps/02_06'
+import Tribyte from './Tribyte';
 
 const Graph = props => {
   const [viewPort] = useViewport()
@@ -15,7 +16,7 @@ const Graph = props => {
   const width = () => viewPort().width
   const height = () => viewPort().height
   const viewBox = () => `${minX()} ${minY()} ${width()} ${height()}`
-  setBitmap({ ...logo()})
+  setBitmap({ ...logo() })
   const w = () => controls["cell-width"]
   const h = () => controls["cell-height"]
 
@@ -95,8 +96,15 @@ const Graph = props => {
     <div style={{ "background-color": controls["background-color"] }}>
       <Svg viewBox={viewBox()}>
         <g shape-rendering="geometricPrecision">
-          <For each={initialCells()}>{cell => <Cell cell={cell} controls={controls} />}
-          </For>
+          <Show when={controls["beta-cell"]}
+            fallback={
+
+              <For each={initialCells()}>{cell => <Cell cell={cell} controls={controls} />}
+              </For>
+            }>
+            <For each={initialCells()}>{cell => <Tribyte cell={cell} controls={controls} />}
+            </For>
+          </Show>
         </g>
       </Svg>
     </div>
