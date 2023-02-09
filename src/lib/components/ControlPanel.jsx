@@ -1,6 +1,6 @@
 import { controlPanelStyle, controlStyle, inputStyle, bitPatternStyle } from '../styles'
 import { useControlPanel } from '../stores/controls';
-import { d2byte, gridDimensions, bitmapRange } from '../utils'
+import { d2byte, gridDimensions } from '../utils'
 import { useViewport } from '../stores/viewport';
 import AlphaCell from './AlphaCell'
 import BetaCell from './BetaCell'
@@ -32,7 +32,6 @@ const ControlPanel = props => {
   const gd = () => gridDimensions(controls["cell-width"], controls["cell-height"], viewPort())
   const copyBitmap = async () => {
     let output = {}
-    bitmapRange(controls.bitmap)
     Object.keys(controls.bitmap).map(key => {
       if (controls.bitmap[key] !== 0) {
         output[key] = controls.bitmap[key]

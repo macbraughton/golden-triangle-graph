@@ -5,7 +5,7 @@ import { onMount, onCleanup, For, Show } from 'solid-js';
 import { cellgen } from '../utils'
 import { sign } from 'mathjs'
 import { useControlPanel } from '../stores/controls';
-import { logo } from '../bitmaps/02_06'
+import { H, Y, X, O, S, logo } from '../bitmaps/02_09'
 import Tribyte from './Tribyte';
 
 const Graph = props => {

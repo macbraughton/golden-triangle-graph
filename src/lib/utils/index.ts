@@ -51,14 +51,12 @@ export const bitmapRange = bitmap => {
   const sort = (a, b) => a - b
   bitmap = {...bitmap}
   delete bitmap["x,y"]
-  console.log(bitmap)
   Object.keys(bitmap).map(key => {
     let [x, y] = key.split(",")
     ranges.x.push(+x)
     ranges.y.push(+y)
   })
   const sortedRanges = { x: Array.from(new Set(ranges.x.sort(sort))), y: Array.from(new Set(ranges.y.sort(sort)))}
-  console.log(sortedRanges)
   const topRowKeys = Object.keys(bitmap).filter(key => {
     let [x, y] = key.split(",")
     return +y === sortedRanges.y[0]
