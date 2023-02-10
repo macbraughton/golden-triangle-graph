@@ -1,6 +1,5 @@
 import { ceil, floor, range } from 'mathjs';
 import { d2byte } from '.';
-import w2h from './w2h';
 
 export const quadraticArray = [[0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1]]
 
@@ -19,14 +18,14 @@ const cellDimensions = (w = 1, h = 1) => { return { width: w * 2, height: h * 2,
 
 const xfAxis = (axis = [1, 1], w = 1, h = 1) => [axis[0] * w * 2, axis[1] * h * 2]
 
-const genGridAxes = (xRange = [-1, 0, 1], yRange =[-1, 0, 1]) => {
+const genGridAxes = (xRange = [-1, 0, 1], yRange = [-1, 0, 1]) => {
   if (xRange.length > yRange.length) {
     return xRange.map(x => yRange.map(y => [x, y])).flat()
   } else return yRange.map(x => xRange.map(y => [x, y])).flat()
 }
 
 const genCellAxes = (gridAxes = [[-1, 1], [-1, 1]], w = 1, h = 1) => {
-  return gridAxes.map(a => { return {"grid-axis": a, axis: xfAxis(a, w, h)} })
+  return gridAxes.map(a => { return { "grid-axis": a, axis: xfAxis(a, w, h) } })
 }
 
 const roundUpToOdd = (n: number) => {
@@ -38,8 +37,9 @@ const roundUpToOdd = (n: number) => {
 
 export const gridDimensions = (w: number, h: number, viewPort) => {
   const dimensions = cellDimensions(w, h)
-  const cols = roundUpToOdd(viewPort.width / dimensions.width)
-  const rows = roundUpToOdd(viewPort.height / dimensions.height)
+  const [, , vpw, vph] = viewPort.split(" ")
+  const cols = roundUpToOdd(vpw / dimensions.width)
+  const rows = roundUpToOdd(vph / dimensions.height)
   const xRangeBase = floor(cols / 2)
   const yRangeBase = floor(rows / 2)
   const xRange = range(-xRangeBase, xRangeBase, true)._data
@@ -63,23 +63,7 @@ export const genCell = (axis: [number, number], w: number, h: number) => {
   return { axis, coords: genTribyteCoordinates(axis, w, h) }
 }
 
-const genCellRenderObject = (cell) => {
-  return { axis: cell.axis, coords: cell.coords, d: cell.coords.map(cellDrawString) }
-}
-
-export const genAlphaCell = (w: number, h: number) => {
-  w = w ? w : 60
-  h = h ? h : w2h(60)
-  return { "grid-axis": "x,y", ...genCellRenderObject({ ...genCell([0, 0], w, h) }) }
-}
-
-export const genBetaCell = (input) => {
-  const defaults = { axis: [0, 0], w: 1, h: 1, byte: 255 }
-  const settings = { ...defaults, ...input }
-  return { "grid-axis": "x,y", axis: settings.axis, coords: tribyte(settings) }
-}
-
-const groupCoords = (tbc, byte) => {
+export const groupCoords = (tbc, byte) => {
   const byteStringArray = d2byte(byte).split("").map(b => +b)
   let coords = tbc.reduce((ac, val, i) => {
     if (byteStringArray[i] && i === 0) {
@@ -101,16 +85,16 @@ const groupCoords = (tbc, byte) => {
   return coords
 }
 
-export const tribyte = input => {
-  const defaults = { axis: [0, 0], w: 1, h: 1, byte: 255 }
-  const output = { ...defaults, ...input }
-  const tbc = genTribyteCoordinates(output.axis, output.w, output.h)
-  let coords = groupCoords(tbc, output.byte)
-  return coords
-}
-
 export default function (w: number, h: number, viewPort) {
   const gd = gridDimensions(w, h, viewPort)
   const axes = genCellAxes(gd.gridAxes, w, h)
-  return axes
+  return axes.map(a => {
+    return {
+      "grid-axis": a["grid-axis"],
+      axis: a.axis,
+      tbc: genTribyteCoordinates(a.axis, w, h)
+    }
+  })
 }
+
+

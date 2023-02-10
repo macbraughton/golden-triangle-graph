@@ -1,17 +1,13 @@
 import { For } from "solid-js"
 import { cellDrawString } from "../utils/cellgen"
-import { tribyte } from "../utils/cellgen"
+import { groupCoords } from "../utils/cellgen"
 
 const Tribyte = (props) => {
-  const tb = () => tribyte({
-    axis: props.cell.axis, 
-    w: props.controls["cell-width"], 
-    h: props.controls["cell-height"], 
-    byte: props.controls.bitmap[props.cell["grid-axis"]]
-  })
-  
+
+  const tb = () => groupCoords(props.cell.tbc, props.controls.bitmap[props.cell["grid-axis"]])
+
   return (
-    <For each={tb()}>{(co, i) => {
+    <For each={tb()}>{(co) => {
       const d = co.map(cellDrawString).join(" ")
       return <path
         d={d}

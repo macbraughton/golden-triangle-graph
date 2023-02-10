@@ -1,9 +1,11 @@
-import { createContext, useContext } from "solid-js";
+import { createContext, useContext, onMount, onCleanup } from "solid-js";
 import { createStore } from "solid-js/store";
 import { w2h } from "../utils";
 const ControlPanelContext = createContext();
 
 const lw = 8
+
+const viewPort = () => `-${innerWidth / 2} -${innerHeight / 2} ${innerWidth} ${innerHeight}`
 
 const initialConfig = {
   "cell-width": lw,
@@ -16,6 +18,7 @@ const initialConfig = {
   "bitmap": { "x,y": 0 },
   "cursor-bit": 1,
   "beta-cell": 0,
+  viewPort
 }
 
 export const config = { ...initialConfig }
@@ -62,6 +65,20 @@ export const ControlPanelProvider = props => {
       }
     }
   ]
+
+  const handler = (event: Event) => {
+    setControls(settings => {
+      return {...settings, viewPort: initialConfig.viewPort()}
+    })
+  }
+
+  onMount(() => {
+    window.addEventListener('resize', handler)
+  })
+
+  onCleanup(() => {
+    window.removeEventListener('resize', handler)
+  })
 
   return (
     <ControlPanelContext.Provider value={controlPanel}>

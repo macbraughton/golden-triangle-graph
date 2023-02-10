@@ -1,20 +1,31 @@
-import { genAlphaCell } from '../utils/cellgen';
-import { vb } from '../utils';
+import { vb, d2byte } from '../utils';
+import { genTribyteCoordinates } from '../utils/cellgen';
 import Cell from './Cell';
 import Svg from './Svg'
 
 const AlphaCell = (props) => {
-  const width = () => props.controls["cell-width"] * 2
-  const height = () => props.controls["cell-height"] * 2
-  const background = () => props.controls["background-color"]
-  const viewBox = () => vb(width(), height())
-  const rectCoords = () => viewBox().split(" ").slice(0,2)
-  const cell = () => genAlphaCell(props.controls["cell-width"] * 2, props.controls["cell-height"] * 2)
+
+  const viewBox = () => vb(props.controls["cell-width"], props.controls["cell-height"])
+  const rx = () => -props.controls["cell-width"] / 2
+  const ry = () => -props.controls["cell-height"] / 2
+  const cell = () => {
+    return {
+      "grid-axis": "x,y",
+      axis: [0, 0],
+      tbc: genTribyteCoordinates([0, 0], props.controls["cell-width"], props.controls["cell-height"]),
+      cellBits: d2byte(props.controls.bitmap["x,y"]).split("").map(b => +b)
+    }
+  }
 
   return (
     <Svg viewBox={viewBox()}>
-      <rect x={rectCoords()[0]} y={rectCoords()[1]} width="100%" height="100%" fill={background()} />
-      <Cell cell={cell()} bitmap={props.controls["bit-pattern"]} {...props} />
+      <rect
+        x={rx()}
+        y={ry()}
+        width="100%"
+        height="100%"
+        fill={props.controls["background-color"]} />
+      <Cell cell={cell()} {...props} />
     </Svg>
   )
 }

@@ -1,13 +1,13 @@
-import { unit, phi, tan, max, min } from "mathjs";
-import cellgen, { gridDimensions, tribyte } from "./cellgen";
+import { unit, phi, tan } from "mathjs";
+import cellgen, { gridDimensions } from "./cellgen";
 import h2w from "./h2w";
 import w2h from "./w2h";
 import gamma from "./gamma"
 import adjustAxis from "./adjustAxis";
 
-export { cellgen, gridDimensions, h2w, w2h, gamma, adjustAxis, tribyte }
+export { cellgen, gridDimensions, h2w, w2h, gamma, adjustAxis }
 
-export const d2byte = (n: number) => {
+export const d2byte = (n: number ) => {
   let base = "00000000"
   if (n) {
     return (base + n.toString(2)).slice(-8)

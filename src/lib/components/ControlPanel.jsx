@@ -1,7 +1,6 @@
 import { controlPanelStyle, controlStyle, inputStyle, bitPatternStyle } from '../styles'
 import { useControlPanel } from '../stores/controls';
 import { d2byte, gridDimensions } from '../utils'
-import { useViewport } from '../stores/viewport';
 import AlphaCell from './AlphaCell'
 import BetaCell from './BetaCell'
 import { createEffect } from 'solid-js';
@@ -28,8 +27,7 @@ const ControlPanel = props => {
     setCursorBit,
     setBetaCell,
     reset }] = useControlPanel()
-  const [viewPort] = useViewport()
-  const gd = () => gridDimensions(controls["cell-width"], controls["cell-height"], viewPort())
+  const gd = () => gridDimensions(controls["cell-width"], controls["cell-height"], controls.viewPort())
   const copyBitmap = async () => {
     let output = {}
     Object.keys(controls.bitmap).map(key => {
