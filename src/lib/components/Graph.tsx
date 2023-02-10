@@ -1,35 +1,25 @@
-import { useViewport } from '../stores/viewport'
 import Svg from '../components/Svg'
 import Cell from '../components/Cell'
-import { onMount, onCleanup, For, Show } from 'solid-js';
+import { onMount, onCleanup, For, Show, createMemo } from 'solid-js';
 import { cellgen } from '../utils'
 import { sign } from 'mathjs'
 import { useControlPanel } from '../stores/controls';
-import { H, Y, X, O, S, logo } from '../bitmaps/02_09'
+import { logo } from '../bitmaps/02_09'
 import Tribyte from './Tribyte';
 
 const Graph = props => {
-  const [viewPort] = useViewport()
+  
   const [controls, { setCellWidth, setBitmap, setCursorBit }] = useControlPanel()
-  const minX = () => viewPort()["min-x"]
-  const minY = () => viewPort()["min-y"]
-  const width = () => viewPort().width
-  const height = () => viewPort().height
-  const viewBox = () => `${minX()} ${minY()} ${width()} ${height()}`
+  
   setBitmap({ ...logo() })
-  const w = () => controls["cell-width"]
-  const h = () => controls["cell-height"]
 
-  const cellAxes = () => {
-    const output = cellgen(w(), h(), viewPort())
-    return output
-  }
-
-  const mouseWheel = (event: Event) => {
+  const cells = createMemo(() => cellgen(controls["cell-width"], controls["cell-height"], controls.viewPort()))
+  
+  const mouseWheel = (event: Event) => {  
     if (sign(event.deltaY) > 0) {
-      setCellWidth(+w() + 1)
-    } else if (+w() > 4) {
-      setCellWidth(+w() - 1)
+      setCellWidth(+controls["cell-width"] + 1)
+    } else if (+controls["cell-width"] > 4) {
+      setCellWidth(+controls["cell-width"] - 1)
     }
   }
 
@@ -94,14 +84,14 @@ const Graph = props => {
 
   return (
     <div style={{ "background-color": controls["background-color"] }}>
-      <Svg viewBox={viewBox()}>
+      <Svg viewBox={controls.viewPort()}>
         <g shape-rendering="geometricPrecision">
           <Show when={controls["beta-cell"]}
             fallback={
-              <For each={cellAxes()}>{cell => <Cell cell={cell} controls={controls} />}
+              <For each={cells()}>{cell => <Cell cell={cell} controls={controls} />}
               </For>
             }>
-            <For each={cellAxes()}>{cell => <Tribyte cell={cell} controls={controls} />}
+            <For each={cells()}>{cell => <Tribyte cell={cell} controls={controls} />}
             </For>
           </Show>
         </g>
