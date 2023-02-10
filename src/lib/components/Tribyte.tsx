@@ -13,7 +13,8 @@ const Tribyte = (props) => {
         d={d}
         fill={props.controls.fill}
         stroke={props.controls.stroke}
-        stroke-width={props.controls["stroke-width"]} />
+        stroke-width={props.controls["stroke-width"]}
+        stroke-linejoin="round"/>
     }}
     </For>
   )

@@ -17,7 +17,8 @@ const Cell = (props) => {
         data-bit-pattern={bs()}
         fill={props.controls.fill}
         stroke={props.controls.stroke}
-        stroke-width={props.controls["stroke-width"]} />
+        stroke-width={props.controls["stroke-width"]}
+        stroke-linejoin="round" />
     }}
     </For>
   )
