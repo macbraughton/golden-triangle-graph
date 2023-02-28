@@ -1,4 +1,4 @@
 [build]
 publish = "dist"
-command = "./netlify_build.sh"
+command = "./build.sh"
 
